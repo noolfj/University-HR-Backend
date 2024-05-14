@@ -1,0 +1,53 @@
+/* Обертка для чекбокса */
+.checkbox-wrapper {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Скрытие оригинального чекбокса */
+.checkbox-wrapper input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Стилизация фонового прямоугольника */
+.checkbox-wrapper .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee; /* Цвет фона */
+    border: 1px solid #ccc; /* Цвет границы */
+}
+
+/* Изменение стиля фона при выборе */
+.checkbox-wrapper input[type="checkbox"]:checked ~ .checkmark {
+    background-color: #2196F3; /* Цвет фона при выборе */
+}
+
+/* Создание галочки */
+.checkbox-wrapper .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+/* Отображение галочки */
+.checkbox-wrapper input[type="checkbox"]:checked ~ .checkmark:after {
+    display: block;
+}
+
+/* Стилизация галочки */
+.checkbox-wrapper .checkmark:after {
+    left: 7px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    border-radius: 1px;
+}
