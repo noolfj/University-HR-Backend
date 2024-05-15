@@ -5,6 +5,12 @@ require_once "conn.php";
 // Получение данных из POST-запроса
 $data = json_decode(file_get_contents("php://input"), true);
 
+// Проверка наличия данных
+if (empty($data)) {
+    echo "error: no data";
+    exit;
+}
+
 // Подготовка запроса для вставки данных
 $sql = "INSERT INTO plans (Plan_Name, Plan_Credit, Comment) VALUES (?, ?, ?)";
 $stmt = $conn->prepare($sql);

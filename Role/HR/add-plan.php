@@ -15,7 +15,6 @@ require_once "conn.php";
         </div>
         <!-- end page title -->
 
-
         <!-- Форма для добавления новых планов -->
         <div class="row">
             <div class="col-lg-12">
@@ -43,70 +42,65 @@ require_once "conn.php";
                             </table>
                         </div>
                         <div style="float: right;">
-    <button id="modifyRow" class="btn btn-primary mt-3 mr-2">+</button>
-    <button id="save" class="btn btn-success mt-3">Сохранить</button>
-</div>
-
+                            <button id="modifyRow" class="btn btn-primary mt-3 mr-2">+</button>
+                            <button id="save" class="btn btn-success mt-3">Сохранить</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         <!-- Конец формы добавления новых планов -->
-    <script>
-     
-        // Обработчик события для кнопки "Добавить/Удалить строку"
-        document.getElementById("modifyRow").addEventListener("click", function() {
-            var tableBody = document.getElementById("tableBody");
-            var newRow = tableBody.insertRow();
-            var rowCount = tableBody.rows.length;
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
-            cell1.textContent = rowCount;
-            cell2.contentEditable = "true";
-            cell3.contentEditable = "true";
-            cell4.contentEditable = "true";
-        });
 
-// Обработчик события для кнопки "Сохранить"
-document.getElementById("save").addEventListener("click", function() {
-    // Собираем данные из таблицы для сохранения
-    var tableRows = document.querySelectorAll("#tableBody tr");
-    var plans = [];
+        <script>
+            document.getElementById("modifyRow").addEventListener("click", function() {
+                var tableBody = document.getElementById("tableBody");
+                var newRow = tableBody.insertRow();
+                var rowCount = tableBody.rows.length;
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+                cell1.textContent = rowCount;
+                cell2.contentEditable = "true";
+                cell3.contentEditable = "true";
+                cell4.contentEditable = "true";
+            });
 
-    tableRows.forEach(function(row) {
-        var plan = {};
-        var cells = row.querySelectorAll("td");
-        plan.name = cells[1].innerText.trim();
-        plan.credit = cells[2].innerText.trim();
-        plan.comment = cells[3].innerText.trim();
-        plans.push(plan);
-    });
+            document.getElementById("save").addEventListener("click", async function() {
+                var tableRows = document.querySelectorAll("#tableBody tr");
+                var plans = [];
 
-    // Отправляем AJAX-запрос на сервер для сохранения данных
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // Выводим сообщение об успешном сохранении
-            if (xhr.responseText === "success") {
-                alert("Данные успешно сохранены!");
-                // Обновляем страницу после успешного сохранения
-                location.reload();
-            } else {
-                // alert("Ошибка при сохранении данных!");
-            }
-        }
-    };
-    xhr.open("POST", "save_plans.php", true);
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify(plans));
-});
+                tableRows.forEach(function(row) {
+                    var plan = {};
+                    var cells = row.querySelectorAll("td");
+                    plan.name = cells[1].innerText.trim();
+                    plan.credit = cells[2].innerText.trim();
+                    plan.comment = cells[3].innerText.trim();
+                    plans.push(plan);
+                });
 
-    </script>
+                try {
+                    const response = await fetch("save_plans.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(plans)
+                    });
+                    const result = await response.text();
+                    if (result.trim() === "success") {
+                        alert("Данные успешно сохранены!");
+                        location.reload(); // Обновление страницы
+                    } else {
+                        alert("Ошибка при сохранении данных: " + result);
+                    }
+                } catch (error) {
+                    console.error("Ошибка:", error);
+                    alert("Ошибка при сохранении данных!");
+                }
+            });
+        </script>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    </div>
 </div>
 
 <?php require_once "footer.php"; ?>

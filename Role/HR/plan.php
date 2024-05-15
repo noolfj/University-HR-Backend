@@ -4,20 +4,17 @@ require_once "conn.php";
 ?> 
 
 <div class="main-content">
+    <div class="page-content">
 
-<div class="page-content">
-
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-flex align-items-center justify-content-between">
-                <h4 class="page-title mb-0 font-size-18">ПЛАН</h4>
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="page-title mb-0 font-size-18">ПЛАН</h4>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- end page title -->
-
-
+        <!-- end page title -->
 
         <!-- Вывод существующих планов -->
         <div class="row">
@@ -63,40 +60,43 @@ require_once "conn.php";
                     </div>
                 </div>
             </div>
-        </div>
         <!-- Конец вывода существующих планов -->
 
-<script>
-   // Функция для удаления строки при нажатии на кнопку "Удалить"
-   function deleteRow(event) {
-            var row = event.target.closest("tr");
-            var planId = event.target.dataset.id;
+        <script>
+            // Функция для удаления строки при нажатии на кнопку "Удалить"
+            async function deleteRow(event) {
+                var row = event.target.closest("tr");
+                var planId = event.target.dataset.id;
 
-            // Отправляем AJAX-запрос на сервер для удаления плана
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    // Если удаление успешно, удаляем строку из таблицы
-                    if (xhr.responseText === "success") {
+                try {
+                    const response = await fetch("delete_plan.php", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: `planId=${planId}`
+                    });
+                    const result = await response.text();
+                    if (result.trim() === "success") {
+                        alert("План успешно удален!");
                         row.remove();
                     } else {
-                        header("Location: plan.php");
-exit(); 
-                        // alert("Ошибка при удалении плана!");
+                        alert("Ошибка при удалении плана: " + result);
                     }
+                } catch (error) {
+                    console.error("Ошибка:", error);
+                    alert("Ошибка при удалении плана!");
                 }
-            };
-            xhr.open("POST", "delete_plan.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("planId=" + planId);
-        }
+            }
 
-        // Добавляем обработчик события для кнопок "Удалить"
-        document.querySelectorAll(".delete-row").forEach(function(button) {
-            button.addEventListener("click", deleteRow);
-        });
+            // Добавляем обработчик события для кнопок "Удалить"
+            document.querySelectorAll(".delete-row").forEach(function(button) {
+                button.addEventListener("click", deleteRow);
+            });
+        </script>
 
-    </script>
+    </div>
+</div>
 
 <?php 
 require_once "footer.php";
