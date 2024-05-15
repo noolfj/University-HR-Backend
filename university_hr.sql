@@ -188,6 +188,24 @@ insert  into `employees`(`Employee_Id`,`Full_Name`,`Date_of_Birth`,`Place_of_Bir
 (73,'Admin','2024-05-11','2',1,1,1,1,1,'Admin@gmail.com','1111111','1','2024-05-11',NULL,'Admin','Admin'),
 (74,'Director','1990-05-10','-',1,7,4,1,5,'direcotr@gmail.com',' +992 (992) 98787674','12345','2024-05-10',NULL,'Director','Director');
 
+/*Table structure for table `employees_plans` */
+
+DROP TABLE IF EXISTS `employees_plans`;
+
+CREATE TABLE `employees_plans` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `Employee_Id` int NOT NULL,
+  `Plan_Id` int NOT NULL,
+  `selected_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `Employee_Id` (`Employee_Id`),
+  KEY `Plan_Id` (`Plan_Id`),
+  CONSTRAINT `employees_plans_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
+  CONSTRAINT `employees_plans_ibfk_2` FOREIGN KEY (`Plan_Id`) REFERENCES `plans` (`Plan_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+/*Data for the table `employees_plans` */
+
 /*Table structure for table `faculties` */
 
 DROP TABLE IF EXISTS `faculties`;
@@ -269,15 +287,6 @@ CREATE TABLE `ratings` (
 
 /*Data for the table `ratings` */
 
-insert  into `ratings`(`Rating_Id`,`Employee_Id`,`Credit_Done`,`Credit_Full`,`Rating`) values 
-(1,1,99,100,4.98),
-(2,2,90,100,4.90),
-(3,3,85,100,4.80),
-(4,4,88,100,4.85),
-(5,5,80,100,4.50),
-(6,6,70,100,4.00),
-(7,7,75,100,4.20);
-
 /*Table structure for table `requests` */
 
 DROP TABLE IF EXISTS `requests`;
@@ -292,6 +301,26 @@ CREATE TABLE `requests` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `requests` */
+
+/*Table structure for table `tasks_completed` */
+
+DROP TABLE IF EXISTS `tasks_completed`;
+
+CREATE TABLE `tasks_completed` (
+  `Task_Id` int NOT NULL AUTO_INCREMENT,
+  `Employee_Id` int NOT NULL,
+  `Plan_Id` int NOT NULL,
+  `File_Path` varchar(255) DEFAULT NULL,
+  `COMMENT` text,
+  `Completion_Date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`Task_Id`),
+  KEY `Employee_Id` (`Employee_Id`),
+  KEY `Plan_Id` (`Plan_Id`),
+  CONSTRAINT `tasks_completed_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
+  CONSTRAINT `tasks_completed_ibfk_2` FOREIGN KEY (`Plan_Id`) REFERENCES `plans` (`Plan_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+/*Data for the table `tasks_completed` */
 
 /*Table structure for table `training` */
 

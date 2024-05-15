@@ -2,19 +2,29 @@
 require_once "header.php";
 
 session_start();
-if( empty($_SESSION["Username"]) ){
+if (empty($_SESSION["Username"])) {
     header("Location: ./login.php");
 }
 
 require_once "conn.php";
 
-$sql_command = "SELECT e.*, d.Degree_Name, e.Path_Photo, r.Rating, r.Credit_Done, r.Credit_Full, r.Rating
-                FROM employees AS e 
-                INNER JOIN degrees AS d ON e.Degree_Id = d.Degree_Id 
-                LEFT JOIN ratings AS r ON e.Employee_Id = r.Employee_Id
-                WHERE e.Username = '{$_SESSION['Username']}'";
+$username = $_SESSION['Username'];
 
-
+$sql_command = "SELECT e.Employee_Id, 
+                e.Full_Name AS FullName, 
+                IFNULL(deg.Degree_Name, 'Без степени') AS Degree,
+                IFNULL(tc.TotalCredit, 0) AS TotalCredit,
+                IFNULL(r.Rating, 0) AS Rating,
+                IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
+        FROM employees e
+        LEFT JOIN (SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
+                    FROM tasks_completed tc
+                    LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
+                    GROUP BY Employee_Id) tc ON e.Employee_Id = tc.Employee_Id
+        LEFT JOIN ratings r ON e.Employee_Id = r.Employee_Id
+        LEFT JOIN degrees deg ON e.Degree_Id = deg.Degree_Id
+        WHERE e.Username = '{$username}'
+        ORDER BY Rating DESC";
 
 $result = mysqli_query($conn, $sql_command);
 
@@ -25,28 +35,15 @@ if (mysqli_num_rows($result) > 0) {
     }
 }
 
-if (mysqli_num_rows($result) > 0) {
-    while ($rows = mysqli_fetch_assoc($result)) {
-        $Full_Name = ucwords($rows["Full_Name"]);
-        $Degree_Name = $rows["Degree_Name"]; 
-        $Credit_Done = $rows["Credit_Done"]; 
-        $Credit_Full = $rows["Credit_Full"];  
-        $Credit_Full = $rows["Rating"];     
-        $Path_Photo = $rows["Path_Photo"];   
-    }
-}
 ?>
 
 <div class="main-content">
-
     <div class="page-content">
-
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="page-title mb-0 font-size-18">Рейтинг</h4>
-
                 </div>
             </div>
         </div>
@@ -57,23 +54,20 @@ if (mysqli_num_rows($result) > 0) {
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-dark mb-0">
-                                <h3>Ваш рейтинг</h3>
-
-                                <div class="table-responsive">
-                                    <table class="table mb-0">
-                                        <thead>
-                                            <tr>
-                                                <th>№</th>
-                                                <th class="text-center">ФИО</th>
-                                                <th>Степень</th>
-                                                <th>Кредит</th>
-                                                <th>Баллы</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <?php foreach ($data as $row): ?>
+                            <h3>Ваш рейтинг</h3>
+                            <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th class="text-center">ФИО</th>
+                                            <th>Степень</th>
+                                            <th>Кредит</th>
+                                            <th>Баллы</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($data as $row): ?>
                                             <tr>
                                                 <td class="align-middle"><?php echo $row['Employee_Id']; ?></td>
                                                 <td class="align-middle">
@@ -84,23 +78,30 @@ if (mysqli_num_rows($result) > 0) {
                                                         </div>
                                                         <div>
                                                             <h5 class="font-size-16 mb-1">
-                                                                <?php echo ucwords($row['Full_Name']); ?></h5>
+                                                                <?php echo ucwords($row['FullName']); ?></h5>
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td class="align-middle"><?php echo $row['Degree_Name']; ?></td>
-                                                <td class="align-middle"><?php echo $row['Credit_Done']; ?>/<?php echo $row['Credit_Full']; ?></td>
-                                                <td class="align-middle"><?php echo $row['Rating']; ?></td>
+                                                <td class="align-middle"><?php echo $row['Degree']; ?></td>
+                                                <td class="align-middle"><?php echo $row['TotalCredit']; ?></td>
+                                                <?php
+                                                // Calculate points based on completed and uncompleted credits
+                                                $completedCredits = $row["TotalCredit"]; // Assuming this field represents completed credits
+                                                $totalCredits = $row["TotalCredit"]; // Assuming this field represents total credits
+                                                $uncompletedCredits = 0; // Initially assuming there are no uncompleted credits
+                                                $points = ($completedCredits - $uncompletedCredits) * 4; // Calculating points, divided by 10
+                                                echo "<td class='align-middle'>".$points."</td>"; // Display points
+                                                ?>
                                             </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <?php
-require_once "footer.php";
-?>
+<?php require_once "footer.php"; ?>

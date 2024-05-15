@@ -190,7 +190,7 @@ $Path_Photo = $rows["Path_Photo"];
                                     <span>План</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="approve-plan.php">Утвердить план</a></li>
+                                    <!-- <li><a href="approve-plan.php">Утвердить план</a></li> -->
                                     <li><a href="plan.php">Текущий план</a></li>
                                 </ul>
                             </li>

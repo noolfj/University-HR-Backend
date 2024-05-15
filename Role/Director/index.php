@@ -1,16 +1,13 @@
-<?php 
+<?php
 require_once "header.php";
 ?>
 <div class="main-content">
-
     <div class="page-content">
-
         <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
                     <h4 class="page-title mb-0 font-size-18">Рейтинг</h4>
-
                 </div>
             </div>
         </div>
@@ -25,32 +22,22 @@ require_once "header.php";
 
                             <div class="btn-group mb-3 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary filterBtn" data-filter="all">Все</button>
-                              
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Кандидат физико-математических наук Кандидат физико-математических наук, доцент">Кандидат физико-математических наук</button>
-
+                                    data-filter="Кандидат физико-математических наук">Кандидат физико-математических
+                                    наук</button>
                                 <button type="button" class="btn btn-primary filterBtn"
                                     data-filter="Кандидат технических наук">Кандидат технических наук</button>
-
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Доктор экономических наук, Доктор экономических наук, профессор">Доктор экономических
-                                    наук</button>
-
+                                    data-filter="Доктор экономических наук">Доктор экономических наук</button>
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Кандидат экономических наук Кандидат экономических наук, доцент">Кандидат экономических
-                                    наук</button>
-                                 
-                          <button type="button" class="btn btn-primary filterBtn"
+                                    data-filter="Кандидат экономических наук">Кандидат экономических наук</button>
+                                <button type="button" class="btn btn-primary filterBtn"
                                     data-filter="Бакалавриат">Бакалавриат</button>
                                 <button type="button" class="btn btn-primary filterBtn"
                                     data-filter="Магистратура">Магистратура</button>
-                        
-                                    <button type="button" class="btn btn-primary filterBtn" data-filter="Без степени">Без
+                                <button type="button" class="btn btn-primary filterBtn" data-filter="Без степени">Без
                                     степени</button>
-
                             </div>
-
-
 
                             <div class="table-responsive">
                                 <table id="datatable" class="table table-bordered dt-responsive nowrap"
@@ -66,60 +53,75 @@ require_once "header.php";
                                     </thead>
                                     <tbody>
                                         <?php
-                                          
-                                          require_once "conn.php";
-                                          
-                                                // Check connection
-                                                if ($conn->connect_error) {
-                                                    die("Connection failed: " . $conn->connect_error);
-                                                }
+                                        require_once "conn.php";
 
-                                                // SELECT query
-                                                $sql = "SELECT r.Rating_Id as Id, 
-                                                IFNULL(e.Path_Photo, '') as Path, 
-                                                e.Full_Name as FullName, 
-                                                deg.Degree_Name as Degree,
-                                                CONCAT(r.Credit_Done, '/', r.Credit_Full) as Credit,
-                                                r.Rating 
-                                         FROM ratings r
-                                         LEFT JOIN employees e ON r.Employee_Id = e.Employee_Id
-                                         LEFT JOIN degrees deg ON e.Degree_Id = deg.Degree_Id
-                                         ORDER BY Rating DESC;";
+                                        // Check connection
+                                        if ($conn->connect_error) {
+                                            die("Connection failed: " . $conn->connect_error);
+                                        }
 
-                                                // Execute query
-                                                $result = $conn->query($sql);
-                                                $count =0;
-                                                // Check if there are any results
-                                                if ($result->num_rows > 0) {
-                                                    // Output data of each row
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $count++;
-                                                        if ($row["Path"] == "") {
-                                                            $row["Path"]= "1.jpg";
-                                                        }
-                                                        echo "<tr>".
-                                                            "   <td class='align-middle'>".$count."</td>".
-                                                            "   <td class='align-middle'>".
-                                                            "   <div class='d-flex align-items-center'>".
-                                                            "       <div class='me-4'> ".
-                                                            "           <img src='../Personal/upload/".$row["Path"]."' alt='' class='avatar-sm rounded-circle'>".
-                                                            "       </div>".
-                                                            "       <div>".
-                                                            "           <h5 class='font-size-16 mb-1'>".$row["FullName"]."</h5>".
-                                                            "       </div>".
-                                                            "   </div>".
-                                                            "    </td>".
-                                                            "   <td class='align-middle'>".$row["Degree"]."</td>".
-                                                            "   <td class='align-middle'>".$row["Credit"]."</td>".
-                                                            "   <td class='align-middle'>".$row["Rating"]."</td>".
-                                                            "</tr>";
-                                                    }
-                                                }
+                                        // SELECT query
+                                        $sql = "SELECT e.Employee_Id, 
+                                        e.Full_Name AS FullName, 
+                                        IFNULL(deg.Degree_Name, 'Без степени') AS Degree,
+                                        IFNULL(tc.TotalCredit, 0) AS TotalCredit,
+                                        IFNULL(r.Rating, 0) AS Rating,
+                                        IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
+                                 FROM employees e
+                                 LEFT JOIN (SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
+                                            FROM tasks_completed tc
+                                            LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
+                                            GROUP BY Employee_Id) tc ON e.Employee_Id = tc.Employee_Id
+                                 LEFT JOIN ratings r ON e.Employee_Id = r.Employee_Id
+                                 LEFT JOIN degrees deg ON e.Degree_Id = deg.Degree_Id
+                                 ORDER BY Rating DESC"; 
 
-                                                // Close connection
-                                                $conn->close();
-                                            ?>
+                                        // Execute query
+                                        $result = $conn->query($sql);
+                                        $count = 0;
 
+                                        // Check if there are any results
+                                        if ($result->num_rows > 0) {
+                                            // Output data of each row
+                                            while ($row = $result->fetch_assoc()) {
+                                                $count++;
+                                                $photoPath = "../Personal/upload/" . $row["Path_Photo"];
+                                                // Отладочный вывод для проверки пути к изображению
+                                                error_log("Путь к изображению: " . $photoPath);
+                                                echo "<tr>";
+                                                echo "<td class='align-middle'>".$count."</td>";
+                                    echo "<td class='align-middle'>".
+                                         "<div class='d-flex align-items-center'>".
+                                         "<div class='me-4'>".
+                                         "<img src='".$photoPath."' alt='' class='avatar-sm rounded-circle'>".
+                                         "</div>".
+                                         "<div>".
+                                         "<h5 class='font-size-16 mb-1'>".$row["FullName"]."</h5>".
+                                         "</div>".
+                                         "</div>".
+                                         "</td>";
+                                    echo "<td class='align-middle'>".$row["Degree"]."</td>";
+                                    echo "<td class='align-middle'>".$row["TotalCredit"]."</td>";
+                                    
+                                    // Calculate points based on completed and uncompleted credits
+                                    $completedCredits = $row["TotalCredit"]; // Assuming this field represents completed credits
+                                    $totalCredits = $row["TotalCredit"]; // Assuming this field represents total credits
+                                    $uncompletedCredits = 0; // Initially assuming there are no uncompleted credits
+                                  // Calculate points based on completed and uncompleted credits
+$completedCredits = $row["TotalCredit"]; // Assuming this field represents completed credits
+$totalCredits = $row["TotalCredit"]; // Assuming this field represents total credits
+$uncompletedCredits = 0; // Initially assuming there are no uncompleted credits
+$points = ($completedCredits - $uncompletedCredits) * 4; // Calculating points, divided by 10
+echo "<td class='align-middle'>".$points."</td>"; // Display points
+
+                                    echo "</tr>";
+                                    
+                                            }
+                                        }
+
+                                        // Close connection
+                                        $conn->close();
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -134,36 +136,39 @@ require_once "header.php";
 
             <script>
             $(document).ready(function() {
-                var table = $('#datatable').DataTable({
-                    "language": {
-                        "lengthMenu": "Показать _MENU_ записей на странице",
-                        "zeroRecords": "Ничего не найдено",
-                        "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
-                        "infoEmpty": "Показано с 0 по 0 из 0 записей",
-                        "infoFiltered": "(отфильтровано из _MAX_ записей)",
-                        "search": "Поиск:",
-                        "paginate": {
-                            "first": "Первая",
-                            "last": "Последняя",
-                            "next": "Следующая",
-                            "previous": "Предыдущая"
-                        }
-                    }
-                });
+    var table = $('#datatable').DataTable({
+        "language": {
+            "lengthMenu": "Показать _MENU_ записей на странице",
+            "zeroRecords": "Ничего не найдено",
+            "info": "Показано с _START_ по _END_ из _TOTAL_ записей",
+            "infoEmpty": "Показано с 0 по 0 из 0 записей",
+            "infoFiltered": "(отфильтровано из _MAX_ записей)",
+            "search": "Поиск:",
+            "paginate": {
+                "first": "Первая",
+                "last": "Последняя",
+                "next": "Следующая",
+                "previous": "Предыдущая"
+            }
+        }
+    });
 
-                // Обработчик события нажатия кнопок фильтрации
-                $('.filterBtn').on('click', function() {
-                    var filterValue = $(this).data('filter');
+    // Обработчик события нажатия кнопок фильтрации
+    $('.filterBtn').on('click', function() {
+        var filterValue = $(this).data('filter');
 
-                    if (filterValue === 'all') {
-                        table.columns(2).search('').draw();
-                    } else {
-                        table.columns(2).search(filterValue).draw();
-                    }
-                });
-            });
+        if (filterValue === 'all') {
+            table.columns(2).search('').draw();
+        } else {
+            table.columns(2).search(filterValue).draw();
+        }
+    });
+
+    // Сортировка таблицы по баллам после загрузки данных
+    table.order([4, 'desc']).draw();
+});
+
             </script>
-
 
             <?php
 require_once "footer.php";
