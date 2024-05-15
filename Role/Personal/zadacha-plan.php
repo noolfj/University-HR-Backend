@@ -1,92 +1,138 @@
-<?php 
+<?php
+// Функция для проверки типа файла (PDF)
+function isPDF($file) {
+    $allowed = ['pdf'];
+    $ext = pathinfo($file, PATHINFO_EXTENSION);
+    return in_array(strtolower($ext), $allowed);
+}
+
 require_once "header.php";
 require_once "conn.php";
+session_start();
 
-// Запрос на получение планов из базы данных
-$sql = "SELECT * FROM plans";
-$result = mysqli_query($conn, $sql);
+// Проверяем, вошел ли пользователь в систему
+if (!isset($_SESSION["Employee_Id"])) {
+    header("Location: login.php");
+    exit;
+}
 
-?>
+// Получаем ID текущего пользователя
+$employee_id = $_SESSION["Employee_Id"];
 
-<div class="main-content">
-    <div class="page-content">
-        <!-- start page title -->
-        <div class="row">
-            <div class="col-12">
-                <div class="page-title-box d-flex align-items-center justify-content-between">
-                    <h4 class="page-title mb-0 font-size-18">ПЛАН</h4>
+// Запрос на получение планов, которые еще не выбраны текущим пользователем
+$sql_all_plans = "SELECT * FROM plans WHERE Plan_Id NOT IN 
+        (SELECT Plan_Id FROM employees_plans WHERE Employee_Id = ?)";
 
-                    <div class="page-title-right">
-                        <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">План</a></li>
-                            <li class="breadcrumb-item active">Отправить выполненные задачи</li>
-                        </ol>
+// Запрос на получение выбранных планов для текущего пользователя
+$sql_selected_plans = "SELECT p.* FROM plans p
+        INNER JOIN employees_plans ep ON p.Plan_Id = ep.Plan_Id
+        WHERE ep.Employee_Id = ?";
+
+// Подготовка запроса для всех планов
+if ($stmt_all_plans = $conn->prepare($sql_all_plans)) {
+    // Привязка параметров
+    $stmt_all_plans->bind_param("i", $employee_id);
+    // Выполнение запроса
+    $stmt_all_plans->execute();
+    // Получение результата
+    $result_all_plans = $stmt_all_plans->get_result();
+}
+
+// Подготовка запроса для выбранных планов
+if ($stmt_selected_plans = $conn->prepare($sql_selected_plans)) {
+    // Привязка параметров
+    $stmt_selected_plans->bind_param("i", $employee_id);
+    // Выполнение запроса
+    $stmt_selected_plans->execute();
+    // Получение результата
+    $result_selected_plans = $stmt_selected_plans->get_result();
+    ?>
+
+    <div class="main-content">
+        <div class="page-content">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-flex align-items-center justify-content-between">
+                        <h4 class="page-title mb-0 font-size-18">ПЛАН</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">План</a></li>
+                                <li class="breadcrumb-item active">Отправить выполненные планы</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- end page title -->
+            <!-- end page title -->
 
-        <!-- Вывод планов из БД в форму -->
-        <?php 
-        // Проверяем, есть ли результаты запроса
-        if(mysqli_num_rows($result) > 0) {
-            $counter = 1; // Инициализируем счетчик
-            // Цикл для вывода каждого плана из базы данных
-            while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="row">';
-                echo '<div class="col-12">';
-                echo '<div class="card mb-4">';
-                echo '<div class="card-body">';
-                echo '<form class="repeater" enctype="multipart/form-data">';
-                echo '<div data-repeater-list="group-a">';
-                echo '<div data-repeater-item class="row">';
-                echo '<div class="mb-3">'; // Изменили ширину столбца для порядкового номера
-                echo '<p class="form-label">' . $counter . '</p>'; // Выводим порядковый номер
-                echo '</div>';
-                // Остальной код формы оставляем без изменений
-                echo '<div class="mb-3 col-lg-2">';
-                echo '<p class="form-label">' . $row['Plan_Name'] . '</p>';
-                echo '</div>';
-                echo '<div class="mb-3 col-lg-2">';
-                echo '<label class="form-label" for="file">Выберите файл</label>';
-                echo '<input type="file" class="form-control-file" id="file" name="file">';
-                echo '</div>';
-                echo '<div class="mb-3 col-lg-2">';
-                echo '<label class="form-label" for="credit">Кредит</label>';
-                echo '<input type="text" id="credit" name="credit" class="form-control">';
-                echo '</div>';
-                echo '<div class="mb-3 col-lg-2">';
-                echo '<label class="form-label" for="status">Статус</label>';
-                // Здесь можно добавить поле для статуса, например, выпадающий список или радиокнопки
-                echo '</div>';
-                echo '<div class="mb-3 col-lg-2">';
-                echo '<label class="form-label" for="comment">Комментарий</label>';
-                echo '<textarea id="comment" name="comment" class="form-control"></textarea>';
-                echo '</div>';
-                echo '<div class="mb-3 col-lg-2">';
-                echo '<label class="form-label">Дата добавления</label>';
-                echo '<input type="text" class="form-control" value="" disabled>';
-                echo '</div>';
-                echo '<div class="col-lg-10"></div>';
-                echo '<div class="col-lg-2 d-flex justify-content-end">';
-                echo '<div class="mb-3 align-self-center">';
-                echo '<input data-repeater-create type="button" class="btn btn-success" value="Отправить" />';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</form>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                echo '</div>';
-                $counter++; // Увеличиваем счетчик после вывода каждой записи
-            }
-        } else {
-            echo '<p>Нет доступных планов.</p>';
-        }
-        ?>
-        <!-- Конец вывода планов -->
+            <!-- Вывод выбранных планов для текущего пользователя -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h3>Выбранные планы</h3>
+                            <?php 
+                            if(mysqli_num_rows($result_selected_plans) > 0) {
+                                $counter = 1; // Инициализируем счетчик
+                                echo '<table class="table mb-0 table-bordered">';
+                                echo '<thead class="table-light">';
+                                echo '<tr>';
+                                echo '<th>№</th>';
+                                echo '<th class="text-center">Норма</th>';
+                                echo '<th>Кредит</th>';
+                                echo '<th>Примечание</th>';
+                                echo '<th>Файл</th>';
+                                echo '<th>Комментарий</th>';
+                                echo '<th>Действие</th>';
+                                echo '</tr>';
+                                echo '</thead>';
+                                echo '<tbody>';
+                                while ($row = mysqli_fetch_assoc($result_selected_plans)) {
+                                    echo '<tr>';
+                                    echo '<th scope="row">' . $counter . '</th>';
+                                    echo '<td>' . $row['Plan_Name'] . '</td>';
+                                    echo '<td>' . $row['Plan_Credit'] . '</td>';
+                                    echo '<td>' . $row['Comment'] . '</td>';
+                                    echo '<td>';
+                                    echo '<form method="post" action="submit-task.php" enctype="multipart/form-data">';
+                                    echo '<input type="file" name="file" class="form-control-file" accept="application/pdf">';
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo '<textarea name="comment" class="form-control"></textarea>';
+                                    echo '</td>';
+                                    echo '<td>';
+                                    echo '<input type="hidden" name="plan_id" value="' . $row['Plan_Id'] . '">';
+                                    echo '<button type="submit" class="btn btn-success">Отправить</button>';
+                                    echo '</form>';
+                                    echo '</td>';
+                                    echo '</tr>';
+                                    $counter++;
+                                }
+                                echo '</tbody>';
+                                echo '</table>';
+                            } else {
+                                echo '<p>Нет выбранных планов.</p>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Конец вывода выбранных планов -->
 
-        <?php require_once "footer.php"; ?>
+    </div>
+
+    <?php 
+    // Закрытие запросов
+    $stmt_all_plans->close();
+    $stmt_selected_plans->close();
+} else {
+    echo "Ошибка подготовки запроса: " . $conn->error;
+}
+
+// Закрытие соединения
+$conn->close();
+
+require_once "footer.php";
+?>
