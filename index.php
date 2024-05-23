@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             font-family: times, sans-serif; /* Замените Arial на нужный вам шрифт */
         }
     </style>
-    <h2 class="text-center text-black">Управление персоналом в учебном заведении</h2>
+    <h2 class="text-center text-black">Система управление персоналом в учебном заведении</h2>
 </head>
 <body>
     <div class="account-pages my-5 pt-sm-5">
