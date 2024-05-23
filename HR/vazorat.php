@@ -251,7 +251,7 @@ $conn->close();
                         <h3>Рейтинг</h3>
                         <form id="ratingForm" action="save_plans.php" method="post">
                             <!-- Передаем Employee_Id в скрытом поле формы -->
-                            <input type="hidden" name="Employee_Id" value="<?php echo $employeeId; ?>">
+                            <input type="hidden" id="Employee_Id" name="Employee_Id" value="<?php echo $employeeId; ?>">
                             <div class="table-responsive">
                                 <table class="table mb-0 table-bordered border-2">
                                     <thead>

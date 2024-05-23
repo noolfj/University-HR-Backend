@@ -22,9 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $count = $row['count'];
         $checkStmt->close();
 
-        if ($count > 0) {
-            // Обновление существующей записи
-            $updateStmt = $conn->prepare("
+        if ($count === 0) {
+            // Вставка новой записи, если запись не существует
+            $insertStmt = $conn->prepare("INSERT INTO emp_rating_vazorat (Employee_Id) VALUES (?)");
+            $insertStmt->bind_param("i", $employeeId);
+            if (!$insertStmt->execute()) {
+                echo "Ошибка при добавлении новой записи: " . $insertStmt->error;
+                $insertStmt->close();
+                $conn->close();
+                exit();
+            }
+            $insertStmt->close();
+        }
+
+        // Обновление существующей записи
+        $updateStmt = $conn->prepare("
             UPDATE emp_rating_vazorat 
             SET 
                 omusgor1_1 = ?, omusgor1_2 = ?, omusgor1_3 = ?, omusgor1_4 = ?, omusgor1_5 = ?, omusgor1_6 = ?, omusgor1_7 = ?, omusgor1_8 = ?,
@@ -34,67 +46,62 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 omusgor5_1 = ?, omusgor5_2 = ?, omusgor5_3 = ?, omusgor5_4 = ?, omusgor5_5 = ?, omusgor5_6 = ?, omusgor5_7 = ?, omusgor5_8 = ?, omusgor5_9 = ?, omusgor5_10 = ?, omusgor5_11 = ?
             WHERE Employee_Id = ?
         ");
-         $updateStmt->bind_param("dddddddddddddddddddddddddddddddddddddddddddi" /* продолжите для остальных типов данных */, 
-                $_POST['omusgor1_1'],
-                $_POST['omusgor1_2'],
-                $_POST['omusgor1_3'],
-                $_POST['omusgor1_4'],
-                $_POST['omusgor1_5'],
-                $_POST['omusgor1_6'],
-                $_POST['omusgor1_7'],
-                $_POST['omusgor1_8'],
-                $_POST['omusgor2_1'],
-                $_POST['omusgor2_2'],
-                $_POST['omusgor2_3'],
-                $_POST['omusgor2_4'],
-                $_POST['omusgor2_5'],
-                $_POST['omusgor2_6'],
-                $_POST['omusgor3_1'],
-                $_POST['omusgor3_2'],
-                $_POST['omusgor3_3'],
-                $_POST['omusgor3_4'],
-                $_POST['omusgor3_5'],
-                $_POST['omusgor3_6'],
-                $_POST['omusgor3_7'],
-                $_POST['omusgor3_8'],
-                $_POST['omusgor3_9'],
-                $_POST['omusgor3_10'],
-                $_POST['omusgor3_11'],
-                $_POST['omusgor4_1'],
-                $_POST['omusgor4_2'],
-                $_POST['omusgor4_3'],
-                $_POST['omusgor4_4'],
-                $_POST['omusgor4_5'],
-                $_POST['omusgor4_6'],
-                $_POST['omusgor4_7'],
-                $_POST['omusgor5_1'],
-                $_POST['omusgor5_2'],
-                $_POST['omusgor5_3'],
-                $_POST['omusgor5_4'],
-                $_POST['omusgor5_5'],
-                $_POST['omusgor5_6'],
-                $_POST['omusgor5_7'],
-                $_POST['omusgor5_8'],
-                $_POST['omusgor5_9'],
-                $_POST['omusgor5_10'],
-                $_POST['omusgor5_11'],
-                $employeeId
-            );
+        $updateStmt->bind_param("dddddddddddddddddddddddddddddddddddddddddddi",
+            $_POST['omusgor1_1'],
+            $_POST['omusgor1_2'],
+            $_POST['omusgor1_3'],
+            $_POST['omusgor1_4'],
+            $_POST['omusgor1_5'],
+            $_POST['omusgor1_6'],
+            $_POST['omusgor1_7'],
+            $_POST['omusgor1_8'],
+            $_POST['omusgor2_1'],
+            $_POST['omusgor2_2'],
+            $_POST['omusgor2_3'],
+            $_POST['omusgor2_4'],
+            $_POST['omusgor2_5'],
+            $_POST['omusgor2_6'],
+            $_POST['omusgor3_1'],
+            $_POST['omusgor3_2'],
+            $_POST['omusgor3_3'],
+            $_POST['omusgor3_4'],
+            $_POST['omusgor3_5'],
+            $_POST['omusgor3_6'],
+            $_POST['omusgor3_7'],
+            $_POST['omusgor3_8'],
+            $_POST['omusgor3_9'],
+            $_POST['omusgor3_10'],
+            $_POST['omusgor3_11'],
+            $_POST['omusgor4_1'],
+            $_POST['omusgor4_2'],
+            $_POST['omusgor4_3'],
+            $_POST['omusgor4_4'],
+            $_POST['omusgor4_5'],
+            $_POST['omusgor4_6'],
+            $_POST['omusgor4_7'],
+            $_POST['omusgor5_1'],
+            $_POST['omusgor5_2'],
+            $_POST['omusgor5_3'],
+            $_POST['omusgor5_4'],
+            $_POST['omusgor5_5'],
+            $_POST['omusgor5_6'],
+            $_POST['omusgor5_7'],
+            $_POST['omusgor5_8'],
+            $_POST['omusgor5_9'],
+            $_POST['omusgor5_10'],
+            $_POST['omusgor5_11'],
+            $employeeId
+        );
 
-
-            
-            if ($updateStmt->execute()) {
-                echo "Данные успешно обновлены";
-                // header("Location: index.php");
-                // exit();
-            } else {
-                echo "Ошибка: " . $updateStmt->error;
-            }
-
-            $updateStmt->close();
+        if ($updateStmt->execute()) {
+            echo "Данные успешно обновлены";
+            // header("Location: index.php");
+            // exit();
         } else {
-            echo "Ошибка: Запись для данного сотрудника не существует.";
+            echo "Ошибка: " . $updateStmt->error;
         }
+
+        $updateStmt->close();
     } else {
         echo "Ошибка: данные формы не получены.";
     }
