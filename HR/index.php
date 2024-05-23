@@ -69,29 +69,30 @@ require_once "header.php";
 
                                         // SELECT query
                                         $sql = "SELECT e.Employee_Id, 
-                                                    e.Full_Name AS FullName, 
-                                                    IFNULL(dep.Department_Name, 'Не указан') AS Department,
-                                                    IFNULL(tc.TotalCredit, 0) AS TotalCredit,
-                                                    IFNULL(ROUND(er.TotalRating, 1), 0) AS TotalRating,
-                                                    IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
-                                                FROM employees e
-                                                LEFT JOIN (
-                                                    SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
-                                                    FROM tasks_completed tc
-                                                    LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
-                                                    GROUP BY Employee_Id
-                                                ) tc ON e.Employee_Id = tc.Employee_Id
-                                                LEFT JOIN (
-                                                    SELECT Employee_Id, 
-                                                        (omusgor1_1 + omusgor1_2 + omusgor1_3 + omusgor1_4 + omusgor1_5 + omusgor1_6 + omusgor1_7 + omusgor1_8 +
-                                                        omusgor2_1 + omusgor2_2 + omusgor2_3 + omusgor2_4 + omusgor2_5 + omusgor2_6 +
-                                                        omusgor3_1 + omusgor3_2 + omusgor3_3 + omusgor3_4 + omusgor3_5 + omusgor3_6 + omusgor3_7 + omusgor3_8 + omusgor3_9 + omusgor3_10 + omusgor3_11 +
-                                                        omusgor4_1 + omusgor4_2 + omusgor4_3 + omusgor4_4 + omusgor4_5 + omusgor4_6 + omusgor4_7 +
-                                                        omusgor5_1 + omusgor5_2 + omusgor5_3 + omusgor5_4 + omusgor5_5 + omusgor5_6 + omusgor5_7 + omusgor5_8 + omusgor5_9 + omusgor5_10 + omusgor5_11) * 100 / 100 AS TotalRating
-                                                    FROM emp_rating_vazorat
-                                                ) er ON e.Employee_Id = er.Employee_Id
-                                                LEFT JOIN departments dep ON e.Department_Id = dep.Department_Id
-                                                ORDER BY TotalRating DESC"; 
+                e.Full_Name AS FullName, 
+                IFNULL(dep.Department_Name, 'Не указан') AS Department,
+                FORMAT(IFNULL(tc.TotalCredit, 0), 1) AS TotalCredit,
+                FORMAT(IFNULL(ROUND(er.TotalRating, 1), 0), 1) AS TotalRating,
+                IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
+            FROM employees e
+            LEFT JOIN (
+                SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
+                FROM tasks_completed tc
+                LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
+                GROUP BY Employee_Id
+            ) tc ON e.Employee_Id = tc.Employee_Id
+            LEFT JOIN (
+                SELECT Employee_Id, 
+                    (omusgor1_1 + omusgor1_2 + omusgor1_3 + omusgor1_4 + omusgor1_5 + omusgor1_6 + omusgor1_7 + omusgor1_8 +
+                    omusgor2_1 + omusgor2_2 + omusgor2_3 + omusgor2_4 + omusgor2_5 + omusgor2_6 +
+                    omusgor3_1 + omusgor3_2 + omusgor3_3 + omusgor3_4 + omusgor3_5 + omusgor3_6 + omusgor3_7 + omusgor3_8 + omusgor3_9 + omusgor3_10 + omusgor3_11 +
+                    omusgor4_1 + omusgor4_2 + omusgor4_3 + omusgor4_4 + omusgor4_5 + omusgor4_6 + omusgor4_7 +
+                    omusgor5_1 + omusgor5_2 + omusgor5_3 + omusgor5_4 + omusgor5_5 + omusgor5_6 + omusgor5_7 + omusgor5_8 + omusgor5_9 + omusgor5_10 + omusgor5_11) * 100 / 100 AS TotalRating
+                FROM emp_rating_vazorat
+            ) er ON e.Employee_Id = er.Employee_Id
+            LEFT JOIN departments dep ON e.Department_Id = dep.Department_Id
+            ORDER BY TotalRating DESC"; 
+
 
                                         // Execute query
                                         $result = $conn->query($sql);

@@ -157,7 +157,7 @@ $Path_Photo = $rows["Path_Photo"];
                             <li>
                                 <a href="index.php" class="waves-effect">
                                     <i class="bx bx-bar-chart-alt-2"></i>
-                                    <span>Рейтинг</span>
+                                    <span>Статистика</span>
                                 </a>
                             </li>
 

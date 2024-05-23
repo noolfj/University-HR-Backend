@@ -71,71 +71,6 @@ insert  into `departments`(`Department_Id`,`Department_Name`) values
 (11,'Пищевая продукция и агротехнология'),
 (12,'Кафедры Языков');
 
-/*Table structure for table `emp_rating_vazorat` */
-
-DROP TABLE IF EXISTS `emp_rating_vazorat`;
-
-CREATE TABLE `emp_rating_vazorat` (
-  `rating_Id` int NOT NULL AUTO_INCREMENT,
-  `Employee_Id` int NOT NULL,
-  `omusgor1_1` decimal(3,1) DEFAULT NULL,
-  `omusgor1_2` decimal(3,1) DEFAULT NULL,
-  `omusgor1_3` decimal(3,1) DEFAULT NULL,
-  `omusgor1_4` decimal(3,1) DEFAULT NULL,
-  `omusgor1_5` decimal(3,1) DEFAULT NULL,
-  `omusgor1_6` decimal(3,1) DEFAULT NULL,
-  `omusgor1_7` decimal(3,1) DEFAULT NULL,
-  `omusgor1_8` decimal(3,1) DEFAULT NULL,
-  `omusgor2_1` decimal(3,1) DEFAULT NULL,
-  `omusgor2_2` decimal(3,1) DEFAULT NULL,
-  `omusgor2_3` decimal(3,1) DEFAULT NULL,
-  `omusgor2_4` decimal(3,1) DEFAULT NULL,
-  `omusgor2_5` decimal(3,1) DEFAULT NULL,
-  `omusgor2_6` decimal(3,1) DEFAULT NULL,
-  `omusgor3_1` decimal(3,1) DEFAULT NULL,
-  `omusgor3_2` decimal(3,1) DEFAULT NULL,
-  `omusgor3_3` decimal(3,1) DEFAULT NULL,
-  `omusgor3_4` decimal(3,1) DEFAULT NULL,
-  `omusgor3_5` decimal(3,1) DEFAULT NULL,
-  `omusgor3_6` decimal(3,1) DEFAULT NULL,
-  `omusgor3_7` decimal(3,1) DEFAULT NULL,
-  `omusgor3_8` decimal(3,1) DEFAULT NULL,
-  `omusgor3_9` decimal(3,1) DEFAULT NULL,
-  `omusgor3_10` decimal(3,1) DEFAULT NULL,
-  `omusgor3_11` decimal(3,1) DEFAULT NULL,
-  `omusgor4_1` decimal(3,1) DEFAULT NULL,
-  `omusgor4_2` decimal(3,1) DEFAULT NULL,
-  `omusgor4_3` decimal(3,1) DEFAULT NULL,
-  `omusgor4_4` decimal(3,1) DEFAULT NULL,
-  `omusgor4_5` decimal(3,1) DEFAULT NULL,
-  `omusgor4_6` decimal(3,1) DEFAULT NULL,
-  `omusgor4_7` decimal(3,1) DEFAULT NULL,
-  `omusgor5_1` decimal(3,1) DEFAULT NULL,
-  `omusgor5_2` decimal(3,1) DEFAULT NULL,
-  `omusgor5_3` decimal(3,1) DEFAULT NULL,
-  `omusgor5_4` decimal(3,1) DEFAULT NULL,
-  `omusgor5_5` decimal(3,1) DEFAULT NULL,
-  `omusgor5_6` decimal(3,1) DEFAULT NULL,
-  `omusgor5_7` decimal(3,1) DEFAULT NULL,
-  `omusgor5_8` decimal(3,1) DEFAULT NULL,
-  `omusgor5_9` decimal(3,1) DEFAULT NULL,
-  `omusgor5_10` decimal(3,1) DEFAULT NULL,
-  `omusgor5_11` decimal(3,1) DEFAULT NULL,
-  PRIMARY KEY (`rating_Id`),
-  KEY `Employee_Id` (`Employee_Id`),
-  CONSTRAINT `emp_rating_vazorat_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
-
-/*Data for the table `emp_rating_vazorat` */
-
-insert  into `emp_rating_vazorat`(`rating_Id`,`Employee_Id`,`omusgor1_1`,`omusgor1_2`,`omusgor1_3`,`omusgor1_4`,`omusgor1_5`,`omusgor1_6`,`omusgor1_7`,`omusgor1_8`,`omusgor2_1`,`omusgor2_2`,`omusgor2_3`,`omusgor2_4`,`omusgor2_5`,`omusgor2_6`,`omusgor3_1`,`omusgor3_2`,`omusgor3_3`,`omusgor3_4`,`omusgor3_5`,`omusgor3_6`,`omusgor3_7`,`omusgor3_8`,`omusgor3_9`,`omusgor3_10`,`omusgor3_11`,`omusgor4_1`,`omusgor4_2`,`omusgor4_3`,`omusgor4_4`,`omusgor4_5`,`omusgor4_6`,`omusgor4_7`,`omusgor5_1`,`omusgor5_2`,`omusgor5_3`,`omusgor5_4`,`omusgor5_5`,`omusgor5_6`,`omusgor5_7`,`omusgor5_8`,`omusgor5_9`,`omusgor5_10`,`omusgor5_11`) values 
-(1,2,5.5,3.5,4.0,1.5,1.0,1.0,0.5,2.0,5.0,4.0,4.0,4.0,1.5,4.5,3.0,2.5,1.0,1.5,1.0,1.5,1.5,1.0,1.0,1.0,1.0,5.0,0.5,3.0,1.0,1.5,1.0,1.0,4.0,4.0,1.5,1.0,1.0,1.0,1.0,1.0,1.0,1.0,0.5),
-(2,1,5.0,3.5,4.0,2.5,1.0,1.0,0.5,2.0,5.0,4.0,4.0,4.0,1.5,4.5,3.0,2.5,1.0,0.0,1.0,1.5,1.5,1.0,0.0,1.0,1.0,6.0,3.0,3.0,2.0,2.0,1.0,2.0,4.0,4.0,1.5,1.0,1.0,0.0,1.0,1.0,1.0,1.0,0.5),
-(3,4,5.5,3.0,4.0,2.5,0.0,1.0,0.0,2.0,5.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.5,1.0,0.0,1.5,1.0,0.0,0.0,0.0,6.0,3.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0),
-(4,3,5.5,3.5,4.0,2.5,1.0,1.0,0.0,0.0,5.0,4.0,4.0,4.0,1.5,4.5,3.0,2.5,1.0,1.5,0.0,0.0,1.5,0.0,0.0,0.0,0.0,6.0,3.0,3.0,1.5,2.0,0.0,0.0,4.0,4.0,1.5,1.0,1.0,4.0,0.0,0.0,0.0,0.0,0.0),
-(5,5,5.5,3.5,4.0,2.5,1.0,0.5,0.0,2.0,5.0,4.0,4.0,4.0,1.0,4.5,3.0,2.5,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0),
-(6,6,5.5,3.5,4.0,2.5,1.0,1.0,0.0,0.0,5.0,4.0,4.0,4.0,0.0,0.0,3.0,2.5,0.0,1.5,0.0,0.0,0.0,0.0,0.0,0.0,0.0,6.0,3.0,3.0,2.0,2.0,0.0,3.0,4.0,4.0,1.5,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0.5);
-
 /*Table structure for table `employee_leave` */
 
 DROP TABLE IF EXISTS `employee_leave`;
@@ -151,18 +86,9 @@ CREATE TABLE `employee_leave` (
   `status` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `pdf_file` blob,
   PRIMARY KEY (`leave_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `employee_leave` */
-
-insert  into `employee_leave`(`leave_id`,`full_name`,`reason`,`start_date`,`end_date`,`comments`,`Username`,`status`,`pdf_file`) values 
-(1,'Ашурова Шабнам Нуруллоевна','Отпуск','2024-07-01','2024-08-01','В связи с накопившимися днями отпуска прошу предоставить мне ежегодный оплачиваемый отпуск с 01.07.2024 по 01.08.2024 включительно.','Ashurova','Принято','Отпуск.pdf'),
-(2,'Назаров Абдусамад Абдурахмонович','Командировка','2024-05-01','2024-05-07','Прошу направить меня в командировку в город Санкт-Петербург с 1 мая 2024 года по 7 мая 2024 года включительно, с целью участия в ежегодной конференции по информационным технологиям и проведению встреч с ключевыми партнёрами по IT-проектам.','Nazarov','Отклонено','Команидровка.pdf'),
-(3,'Худойбердиев Хуршед Атохонович','Командировка','2024-06-15','2024-05-21','Прошу направить меня в командировку в город Берлин, Германия с 15 июня 2024 года по 21 июня 2024 года включительно для участия в ежегодной выставке по информационным технологиям и проведения встреч с поставщиками оборудования.','Khudoyberdiev','Принято','Команидровка.pdf'),
-(4,'Худойбердиев Хуршед Атохонович','Отпуск','2024-07-01','2024-05-31','Прошу предоставить мне ежегодный оплачиваемый отпуск с 1 июля 2024 года по 31 июля 2024 года включительно.','Khudoyberdiev','Принято','Отпуск.pdf'),
-(5,'Солиев Одилходжа Махмудходжаевич','Больничный','2024-08-01','2024-09-01','Я обращаюсь к вам с просьбой предоставить мне больничный лист с 1 августа по 1 сентября, так как моя текущая физическая форма не позволяет мне продолжать работу в полную силу.','Soliev','На рассмотрении директора','Больничный.pdf'),
-(6,'Фозилова Мохирахон Музаффаровна','Увольнение','2024-02-01','2024-02-02','С сожалением, я пишу вам, чтобы известить о своем решении об уходе с должности специалиста по информационным технологиям в ООО \"ПримерТехноКомпани\". Моя последняя рабочая дата будет 02.02.2024, что даст достаточно времени для передачи моих текущих обязанностей и завершения незавершенных проектов.','Fozilova','В ожидании','Увольнение.pdf'),
-(7,'Левандовский Богдан Игоревич ','Отпуск','2024-07-01','2024-09-01','Прошу предоставить мне ежегодный оплачиваемый отпуск с 01.07.2024 по 01.09.2024 Хотелось бы отдохнуть и пополнить свои силы после продолжительного периода работы.','Levandovski','В ожидании','Отпуск.pdf');
 
 /*Table structure for table `employees` */
 
@@ -201,16 +127,16 @@ CREATE TABLE `employees` (
 /*Data for the table `employees` */
 
 insert  into `employees`(`Employee_Id`,`Full_Name`,`Date_of_Birth`,`Place_of_Birth`,`Position_Id`,`Degree_Id`,`Faculty_Id`,`Department_Id`,`User_Role_Id`,`Email`,`Phone_Number`,`Employee_Number`,`Date_Added`,`Path_Photo`,`Username`,`Password`) values 
-(1,'Максудов Хуршед Темурович','1958-09-20','Исфара',1,5,1,2,2,'jane.smith@example.com','987-654-3210','EMP002','2023-01-02','663cd88bf02598.65872519.png','Maksudov','Maksudov'),
+(1,'Максудов Хуршед Темурович','1958-09-20','Исфара',1,5,1,2,5,'jane.smith@example.com','987-654-3210','EMP002','2023-01-02','663cd88bf02598.65872519.png','Maksudov','Maksudov'),
 (2,'Худойбердиев Хуршед Атохонович','1980-04-10','Исфара',2,5,1,2,2,'khudoyberdiev@gmail.com','111-222-3333','EMP003','2023-01-03','663c7fba8b7588.46532569.png','Khudoyberdiev','Khudoyberdiev'),
 (3,'Ашурова Шабнам Нуруллоевна','2024-04-26','asda',4,15,1,2,2,'sdasd@gasd.com','12312','1231','2024-04-26','663c803e9e5b85.90505652.png','Ashurova','Ashurova'),
 (4,'Назаров Абдусамад Абдурахмонович','2024-04-26','12312',4,15,1,2,2,'21eqwew@sdas.fdg','12312','12312','2024-04-26','663c80530c1ff6.67552740.png','Nazarov','Nazarov'),
-(5,'Левандовский Богдан Игоревич ','2024-04-26','sda',1,2,1,2,2,'asdas@sda.com','12312','12312','2024-04-26',NULL,'Levandovski','Levandovski'),
-(6,'Солиев Одилходжа Махмудходжаевич','1977-04-01','Исфара',4,6,4,2,2,' osoliev@gmail.com','+992928373035','EMP004','2023-01-04','663c8154d97381.33705858.jpg','Soliev','Soliev'),
+(5,'Левандовский Богдан Игоревич ','2024-04-26','sda',1,2,1,1,2,'asdas@sda.com','12312','12312','2024-04-26',NULL,'Levandovski','Levandovski'),
+(6,'Солиев Одилходжа Махмудходжаевич','1977-04-01','Исфара',4,6,4,4,2,' osoliev@gmail.com','+992928373035','EMP004','2023-01-04','663c8154d97381.33705858.jpg','Soliev','Soliev'),
 (7,'Довудов Гулшан Мирбахоевич','1981-12-27','Исфара',2,1,1,2,2,'sada@gasd.csa','23123','12312','2024-04-26','663ca2541175f2.53483956.png','Dovudov','Dovudov'),
 (8,'Усмонова Мохина Рустамовна','1981-08-24','Хучанд',6,1,1,1,4,'sada@gasd.csa','23123','12312','2024-04-26',NULL,'Usmonova','Usmonova'),
 (9,'Косимов Абдунаби Абдурауфович','2024-04-26','ТЕмст',2,1,1,2,2,'sada@gasd.csa','23123','12312','2024-04-26',NULL,'etse','ауыуаы'),
-(10,'Фозилова Мохирахон Музаффаровна','2024-04-26','wasd',1,3,3,1,2,'asasd@sdad.asd','123123','12312','2024-04-26',NULL,'Fozilova','Fozilova'),
+(10,'Фозилова Мохирахон Музаффаровна','2024-04-26','wasd',1,3,3,1,2,'asasd@sdad.asd','123123','12312','2024-04-26',NULL,'qqqq','qqqq'),
 (11,'Хакимова Ольга Ренатовна ','2024-04-26','ывф',4,3,2,1,2,'asda@sdas.com','12312','2312','2024-04-26',NULL,'12wad','asd'),
 (12,'Зульфикорова Парвина Эгамовна','2024-04-26','ывф',4,3,2,1,2,'asda@sdas.com','12312','2312','2024-04-26',NULL,'12wad','asd'),
 (13,'Фарзонаи Эрач','2024-04-26','sda',2,1,1,1,2,'asdas@sda.com','12312','12312','2024-04-26',NULL,'edsfsdfdsf','sdfsdf'),
@@ -276,19 +202,9 @@ CREATE TABLE `employees_plans` (
   KEY `Plan_Id` (`Plan_Id`),
   CONSTRAINT `employees_plans_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
   CONSTRAINT `employees_plans_ibfk_2` FOREIGN KEY (`Plan_Id`) REFERENCES `plans` (`Plan_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `employees_plans` */
-
-insert  into `employees_plans`(`id`,`Employee_Id`,`Plan_Id`,`selected_date`) values 
-(22,3,5,'2024-05-23 20:55:16'),
-(36,6,2,'2024-05-23 20:59:14'),
-(38,6,4,'2024-05-23 20:59:14'),
-(39,6,5,'2024-05-23 20:59:14'),
-(41,6,7,'2024-05-23 20:59:14'),
-(42,6,8,'2024-05-23 20:59:14'),
-(43,6,9,'2024-05-23 20:59:14'),
-(44,6,10,'2024-05-23 20:59:14');
 
 /*Table structure for table `faculties` */
 
@@ -402,49 +318,76 @@ CREATE TABLE `tasks_completed` (
   KEY `Plan_Id` (`Plan_Id`),
   CONSTRAINT `tasks_completed_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
   CONSTRAINT `tasks_completed_ibfk_2` FOREIGN KEY (`Plan_Id`) REFERENCES `plans` (`Plan_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `tasks_completed` */
 
-insert  into `tasks_completed`(`Task_Id`,`Employee_Id`,`Plan_Id`,`File_Path`,`COMMENT`,`Completion_Date`) values 
-(1,3,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:49:57'),
-(2,3,2,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:50:09'),
-(3,2,6,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:50:31'),
-(4,2,7,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:50:33'),
-(5,2,8,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:50:36'),
-(6,2,9,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:50:39'),
-(7,2,10,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:50:48'),
-(8,2,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:01'),
-(9,4,6,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:33'),
-(10,4,7,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:36'),
-(11,4,8,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:39'),
-(12,4,9,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:41'),
-(13,4,10,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:44'),
-(14,4,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:51:57'),
-(15,4,2,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:52:01'),
-(16,2,6,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:52:22'),
-(17,2,7,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:52:30'),
-(18,2,10,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:52:41'),
-(19,3,3,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:55:21'),
-(20,3,2,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:55:24'),
-(21,3,4,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:55:27'),
-(22,1,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:56:55'),
-(23,1,2,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:56:58'),
-(24,1,3,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:57:00'),
-(25,1,4,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:57:03'),
-(26,1,5,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:57:06'),
-(27,1,6,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:57:18'),
-(28,1,7,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:57:20'),
-(29,1,8,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:57:23'),
-(30,5,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:58:30'),
-(31,5,2,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:58:33'),
-(32,5,3,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:58:35'),
-(33,5,4,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:58:38'),
-(34,6,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:20'),
-(35,6,6,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:25'),
-(36,6,3,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:31');
 
-/*Table structure for table `training` */
+
+-- CREATE TABLE emp_rating (
+--     emp_rat_id INT AUTO_INCREMENT PRIMARY KEY,
+--     nazv VARCHAR(255),
+--     comm VARCHAR(255),
+--     ball varchar(255)
+-- );
+
+DROP TABLE IF EXISTS `emp_rating_vazorat`;
+
+CREATE TABLE `emp_rating_vazorat` (
+  `rating_Id` int NOT NULL AUTO_INCREMENT,
+  `Employee_Id` int NOT NULL,
+`omusgor1_1` decimal(3,1),
+`omusgor1_2` decimal(3,1),
+`omusgor1_3` decimal(3,1),
+`omusgor1_4` decimal(3,1),
+`omusgor1_5` decimal(3,1),
+`omusgor1_6` decimal(3,1),
+`omusgor1_7` decimal(3,1),
+`omusgor1_8` decimal(3,1),
+`omusgor2_1` decimal(3,1),
+`omusgor2_2` decimal(3,1),
+`omusgor2_3` decimal(3,1),
+`omusgor2_4` decimal(3,1),
+`omusgor2_5` decimal(3,1),
+`omusgor2_6` decimal(3,1),
+`omusgor3_1` decimal(3,1),
+`omusgor3_2` decimal(3,1),
+`omusgor3_3` decimal(3,1),
+`omusgor3_4` decimal(3,1),
+`omusgor3_5` decimal(3,1),
+`omusgor3_6` decimal(3,1),
+`omusgor3_7` decimal(3,1),
+`omusgor3_8` decimal(3,1),
+`omusgor3_9` decimal(3,1),
+`omusgor3_10` decimal(3,1),
+`omusgor3_11` decimal(3,1),
+`omusgor4_1` decimal(3,1),
+`omusgor4_2` decimal(3,1),
+`omusgor4_3` decimal(3,1),
+`omusgor4_4` decimal(3,1),
+`omusgor4_5` decimal(3,1),
+`omusgor4_6` decimal(3,1),
+`omusgor4_7` decimal(3,1),
+`omusgor5_1` decimal(3,1),
+`omusgor5_2` decimal(3,1),
+`omusgor5_3` decimal(3,1),
+`omusgor5_4` decimal(3,1),
+`omusgor5_5` decimal(3,1),
+`omusgor5_6` decimal(3,1),
+`omusgor5_7` decimal(3,1),
+`omusgor5_8` decimal(3,1),
+`omusgor5_9` decimal(3,1),
+`omusgor5_10` decimal(3,1),
+`omusgor5_11` decimal(3,1),
+
+  PRIMARY KEY (`rating_Id`),
+  KEY `Employee_Id` (`Employee_Id`),
+  CONSTRAINT `emp_rating_vazorat_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+  -- `emp_rat_id` int NOT NULL,
+-- KEY `emp_rat_id` (`emp_rat_id`),
+  -- CONSTRAINT `emp_rating_vazorat_ibfk_2` FOREIGN KEY (`emp_rat_id`) REFERENCES `emp_rating` (`emp_rat_id`)
 
 DROP TABLE IF EXISTS `training`;
 
