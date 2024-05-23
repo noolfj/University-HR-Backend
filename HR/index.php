@@ -18,7 +18,7 @@ require_once "header.php";
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <h3>Рейтинг всех сотрудников</h3>
+                            <h3>Статистика всех сотрудников</h3>
 
                             <div class="btn-group mb-3 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary filterBtn" data-filter="all">Все</button>
@@ -67,57 +67,46 @@ require_once "header.php";
                                         IFNULL(tc.TotalCredit, 0) AS TotalCredit,
                                         IFNULL(r.Rating, 0) AS Rating,
                                         IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
-                                 FROM employees e
-                                 LEFT JOIN (SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
-                                            FROM tasks_completed tc
-                                            LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
-                                            GROUP BY Employee_Id) tc ON e.Employee_Id = tc.Employee_Id
-                                 LEFT JOIN ratings r ON e.Employee_Id = r.Employee_Id
-                                 LEFT JOIN degrees deg ON e.Degree_Id = deg.Degree_Id
-                                 ORDER BY Rating DESC"; 
+                                        FROM employees e
+                                        LEFT JOIN (SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
+                                                   FROM tasks_completed tc
+                                                   LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
+                                                   GROUP BY Employee_Id) tc ON e.Employee_Id = tc.Employee_Id
+                                        LEFT JOIN ratings r ON e.Employee_Id = r.Employee_Id
+                                        LEFT JOIN degrees deg ON e.Degree_Id = deg.Degree_Id
+                                        ORDER BY Rating DESC"; 
 
                                         // Execute query
                                         $result = $conn->query($sql);
                                         $count = 0;
 
-                                        // Check if there are any results
-                                        if ($result->num_rows > 0) {
-                                            // Output data of each row
-                                            while ($row = $result->fetch_assoc()) {
-                                                $count++;
-                                                $photoPath = "../Personal/upload/" . $row["Path_Photo"];
-                                                // Отладочный вывод для проверки пути к изображению
-                                                error_log("Путь к изображению: " . $photoPath);
-                                                echo "<tr>";
-                                                echo "<td class='align-middle'>".$count."</td>";
-                                    echo "<td class='align-middle'>".
-                                         "<div class='d-flex align-items-center'>".
-                                         "<div class='me-4'>".
-                                         "<img src='".$photoPath."' alt='' class='avatar-sm rounded-circle'>".
-                                         "</div>".
-                                         "<div>".
-                                         "<h5 class='font-size-16 mb-1'>".$row["FullName"]."</h5>".
-                                         "</div>".
-                                         "</div>".
-                                         "</td>";
-                                    echo "<td class='align-middle'>".$row["Degree"]."</td>";
-                                    echo "<td class='align-middle'>".$row["TotalCredit"]."</td>";
-                                    
-                                    // Calculate points based on completed and uncompleted credits
-                                    $completedCredits = $row["TotalCredit"]; // Assuming this field represents completed credits
-                                    $totalCredits = $row["TotalCredit"]; // Assuming this field represents total credits
-                                    $uncompletedCredits = 0; // Initially assuming there are no uncompleted credits
-                                  // Calculate points based on completed and uncompleted credits
-$completedCredits = $row["TotalCredit"]; // Assuming this field represents completed credits
-$totalCredits = $row["TotalCredit"]; // Assuming this field represents total credits
-$uncompletedCredits = 0; // Initially assuming there are no uncompleted credits
-$points = ($completedCredits - $uncompletedCredits) * 4; // Calculating points, divided by 10
-echo "<td class='align-middle'>".$points."</td>"; // Display points
+                               // Inside the while loop where the table rows are generated
+while ($row = $result->fetch_assoc()) {
+    $count++;
+    $photoPath = "../Personal/upload/" . $row["Path_Photo"];
+    echo "<tr>";
+    echo "<td class='align-middle'>" . $count . "</td>";
+    echo "<td class='align-middle'>" .
+         "<div class='d-flex align-items-center'>" .
+         "<div class='me-4'>" .
+         "<img src='" . $photoPath . "' alt='' class='avatar-sm rounded-circle'>" .
+         "</div>" .
+         "<div>" .
+         "<h5 class='font-size-16 mb-1'><a href='vazorat.php?employeeId=" . $row["Employee_Id"] . "' class='rating-link'>" . $row["FullName"] . "</a></h5>" .
+         "</div>" .
+         "</div>" .
+         "</td>";
+    echo "<td class='align-middle'>" . $row["Degree"] . "</td>";
+    echo "<td class='align-middle'>" . $row["TotalCredit"] . "</td>";
 
-                                    echo "</tr>";
-                                    
-                                            }
-                                        }
+    $completedCredits = $row["TotalCredit"];
+    $totalCredits = $row["TotalCredit"];
+    $uncompletedCredits = 0;
+    $points = ($completedCredits - $uncompletedCredits) * 4;
+    echo "<td class='align-middle'>" . $points . "</td>";
+
+    echo "</tr>";
+}
 
                                         // Close connection
                                         $conn->close();
@@ -129,13 +118,17 @@ echo "<td class='align-middle'>".$points."</td>"; // Display points
                     </div>
                 </div>
             </div>
-            <!-- Подключение jQuery -->
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-            <!-- Подключение библиотеки DataTables -->
-            <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+        </div>
+    </div>
+</div>
 
-            <script>
-            $(document).ready(function() {
+<!-- Подключение jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Подключение библиотеки DataTables -->
+<script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+
+<script>
+$(document).ready(function() {
     var table = $('#datatable').DataTable({
         "language": {
             "lengthMenu": "Показать _MENU_ записей на странице",
@@ -167,9 +160,8 @@ echo "<td class='align-middle'>".$points."</td>"; // Display points
     // Сортировка таблицы по баллам после загрузки данных
     table.order([4, 'desc']).draw();
 });
+</script>
 
-            </script>
-
-            <?php
+<?php
 require_once "footer.php";
 ?>

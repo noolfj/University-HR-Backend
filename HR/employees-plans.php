@@ -49,8 +49,8 @@ require_once "../conn.php";
                                             // Выводим текстовые описания сотрудника и задания вместо их ID
                                             echo "<td>" . $row['Full_Name'] . "</td>";
                                             echo "<td>" . $row['Plan_Name'] . "</td>";
-                                            // Добавляем ссылку на файл
-                                            echo "<td><a href='" . $row['File_Path'] . "'>Посмотреть файл</a></td>";
+                                            // Добавляем ссылку на файл с атрибутом target="_blank"
+                                            echo "<td><a href='" . $row['File_Path'] . "' target='_blank'>Посмотреть файл</a></td>";
                                             echo "<td>" . $row['COMMENT'] . "</td>";
                                             echo "<td>" . $row['Completion_Date'] . "</td>";
                                             echo "</tr>";

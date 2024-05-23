@@ -322,7 +322,29 @@ CREATE TABLE `tasks_completed` (
 
 /*Data for the table `tasks_completed` */
 
-/*Table structure for table `training` */
+
+
+CREATE TABLE emp_rating (
+    emp_rat_id INT AUTO_INCREMENT PRIMARY KEY,
+    nazv VARCHAR(255),
+    comm VARCHAR(255),
+    ball varchar(255)
+);
+
+DROP TABLE IF EXISTS `emp_rating_vazorat`;
+
+CREATE TABLE `emp_rating_vazorat` (
+  `rating_Id` int NOT NULL AUTO_INCREMENT,
+  `Employee_Id` int NOT NULL,
+  `emp_rat_id` int NOT NULL,
+  `omusgor` double,
+  PRIMARY KEY (`rating_Id`),
+  KEY `Employee_Id` (`Employee_Id`),
+  KEY `emp_rat_id` (`emp_rat_id`),
+  CONSTRAINT `emp_rating_vazorat_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
+  CONSTRAINT `emp_rating_vazorat_ibfk_2` FOREIGN KEY (`emp_rat_id`) REFERENCES `emp_rating` (`emp_rat_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
 
 DROP TABLE IF EXISTS `training`;
 

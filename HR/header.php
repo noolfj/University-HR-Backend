@@ -55,6 +55,12 @@ $Path_Photo = $rows["Path_Photo"];
     <!-- Bootstrap Css -->
     <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
+
+    <!-- <style>
+
+        </style> -->
+
+    
 </head>
 
 <body data-layout="detached" data-topbar="colored">
@@ -159,7 +165,7 @@ $Path_Photo = $rows["Path_Photo"];
                             <li>
                                 <a href="index.php" class="waves-effect">
                                     <i class="bx bx-bar-chart-alt-2"></i>
-                                    <span>Рейтинг</span>
+                                    <span>Статистика</span>
                                 </a>
                             </li>
 
@@ -197,7 +203,7 @@ $Path_Photo = $rows["Path_Photo"];
                                     <!-- <li><a href="approve-plan.php">Утвердить план</a></li> -->
                                     <li><a href="plan.php">Текущий план</a></li>
                                     <li><a href="employees-plans.php">Посмотреть отправленные планы</a></li>
-                                    <!-- <li><a href="select-plan.php">Выбрать план</a></li> -->
+                                    <li><a href="emp-rating.php">Рейтинг всех сотрудников</a></li>
 
                                 </ul>
                             </li>
