@@ -56,9 +56,17 @@ $Path_Photo = $rows["Path_Photo"];
     <link href="/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
 
-    <!-- <style>
+    <style>
+.fixed-top {
+    position: fixed;
+    width: 100%;
+    z-index: 1030; /* Убедитесь, что z-index навбара выше, чем у других элементов на странице */
+}
 
-        </style> -->
+.content-page {
+    margin-top: 60px; /* Высота навбара, чтобы контент не налезал на него */
+}
+        </style> 
 
     
 </head>
@@ -70,7 +78,7 @@ $Path_Photo = $rows["Path_Photo"];
         <!-- Begin page -->
         <div id="layout-wrapper">
 
-            <header id="page-topbar">
+        <header id="page-topbar" class="fixed-top"> 
                 <div class="navbar-header">
                     <div class="container-fluid">
                         <div class="float-end">
@@ -203,7 +211,6 @@ $Path_Photo = $rows["Path_Photo"];
                                     <!-- <li><a href="approve-plan.php">Утвердить план</a></li> -->
                                     <li><a href="plan.php">Текущий план</a></li>
                                     <li><a href="employees-plans.php">Посмотреть отправленные планы</a></li>
-                                    <li><a href="emp-rating.php">Рейтинг всех сотрудников</a></li>
 
                                 </ul>
                             </li>

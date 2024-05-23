@@ -23,22 +23,33 @@ require_once "header.php";
                             <div class="btn-group mb-3 d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary filterBtn" data-filter="all">Все</button>
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Кандидат физико-математических наук">Кандидат физико-математических
-                                    наук</button>
+                                    data-filter="Электроснабжение и автоматика">Электроснабжение и автоматика</button>
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Кандидат технических наук">Кандидат технических наук</button>
+                                    data-filter="Программирование и информационные  системы">Программирование и информационные  системы</button>
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Доктор экономических наук">Доктор экономических наук</button>
+                                    data-filter="Инженерная экономика и менеджмент">Инженерная экономика и менеджмент</button>
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Кандидат экономических наук">Кандидат экономических наук</button>
+                                    data-filter=" Физики и химии"> Физики и химии</button>
                                 <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Бакалавриат">Бакалавриат</button>
-                                <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Магистратура">Магистратура</button>
-                                <button type="button" class="btn btn-primary filterBtn" data-filter="Без степени">Без
-                                    степени</button>
+                                    data-filter="Автомобили и управление на транспорте">Автомобили и управление на транспорте</button>
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        Другие
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="departmentDropdown">
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Строительства">Строительства</button></li>
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Государственный язык и обществоведение">Государственный язык и обществоведение</button></li>
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Финансы и кредит">Финансы и кредит</button></li>
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Высшая математика и информатика">Высшая математика и информатика</button></li>
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Дизайна и архитектуры">Дизайна и архитектуры</button></li>
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Пищевая продукция и агротехнология">Пищевая продукция и агротехнология</button></li>
+        <li><button class="dropdown-item filterBtn" type="button" data-filter="Кафедры Языков">Кафедры Языков</button></li>
+   
+    </ul>
                             </div>
 
+                            <!-- <div class="btn-group mb-3 d-flex justify-content-end">
+  
+    </div> -->
                             <div class="table-responsive">
                                 <table id="datatable" class="table table-bordered dt-responsive nowrap"
                                     style="border-collapse: collapse; border-spacing: 0; width: 100%;">
@@ -46,9 +57,10 @@ require_once "header.php";
                                         <tr>
                                             <th>№</th>
                                             <th class="text-center">ФИО</th>
-                                            <th>Степень</th>
+                                            <th>Кафедра</th>
                                             <th>Кредит</th>
                                             <th>Баллы</th>
+                                            <th>Рейтинг</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,19 +74,20 @@ require_once "header.php";
 
                                         // SELECT query
                                         $sql = "SELECT e.Employee_Id, 
-                                        e.Full_Name AS FullName, 
-                                        IFNULL(deg.Degree_Name, 'Без степени') AS Degree,
-                                        IFNULL(tc.TotalCredit, 0) AS TotalCredit,
-                                        IFNULL(r.Rating, 0) AS Rating,
-                                        IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
-                                        FROM employees e
-                                        LEFT JOIN (SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
-                                                   FROM tasks_completed tc
-                                                   LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
-                                                   GROUP BY Employee_Id) tc ON e.Employee_Id = tc.Employee_Id
-                                        LEFT JOIN ratings r ON e.Employee_Id = r.Employee_Id
-                                        LEFT JOIN degrees deg ON e.Degree_Id = deg.Degree_Id
-                                        ORDER BY Rating DESC"; 
+        e.Full_Name AS FullName, 
+        IFNULL(dep.Department_Name, 'Не указан') AS Department,
+        IFNULL(tc.TotalCredit, 0) AS TotalCredit,
+        IFNULL(r.Rating, 0) AS Rating,
+        IFNULL(e.Path_Photo, '1.jpg') AS Path_Photo
+        FROM employees e
+        LEFT JOIN (SELECT Employee_Id, SUM(p.Plan_Credit) AS TotalCredit
+                   FROM tasks_completed tc
+                   LEFT JOIN plans p ON tc.Plan_Id = p.Plan_Id
+                   GROUP BY Employee_Id) tc ON e.Employee_Id = tc.Employee_Id
+        LEFT JOIN ratings r ON e.Employee_Id = r.Employee_Id
+        LEFT JOIN departments dep ON e.Department_Id = dep.Department_Id
+        ORDER BY Rating DESC"; 
+
 
                                         // Execute query
                                         $result = $conn->query($sql);
@@ -96,7 +109,7 @@ while ($row = $result->fetch_assoc()) {
          "</div>" .
          "</div>" .
          "</td>";
-    echo "<td class='align-middle'>" . $row["Degree"] . "</td>";
+         echo "<td class='align-middle'>" . $row["Department"] . "</td>";
     echo "<td class='align-middle'>" . $row["TotalCredit"] . "</td>";
 
     $completedCredits = $row["TotalCredit"];
@@ -119,7 +132,6 @@ while ($row = $result->fetch_assoc()) {
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
 <!-- Подключение jQuery -->

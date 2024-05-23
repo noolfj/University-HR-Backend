@@ -324,27 +324,70 @@ CREATE TABLE `tasks_completed` (
 
 
 
-CREATE TABLE emp_rating (
-    emp_rat_id INT AUTO_INCREMENT PRIMARY KEY,
-    nazv VARCHAR(255),
-    comm VARCHAR(255),
-    ball varchar(255)
-);
+-- CREATE TABLE emp_rating (
+--     emp_rat_id INT AUTO_INCREMENT PRIMARY KEY,
+--     nazv VARCHAR(255),
+--     comm VARCHAR(255),
+--     ball varchar(255)
+-- );
 
 DROP TABLE IF EXISTS `emp_rating_vazorat`;
 
 CREATE TABLE `emp_rating_vazorat` (
   `rating_Id` int NOT NULL AUTO_INCREMENT,
   `Employee_Id` int NOT NULL,
-  `emp_rat_id` int NOT NULL,
-  `omusgor` double,
+`omusgor1_1` decimal(3,1),
+`omusgor1_2` decimal(3,1),
+`omusgor1_3` decimal(3,1),
+`omusgor1_4` decimal(3,1),
+`omusgor1_5` decimal(3,1),
+`omusgor1_6` decimal(3,1),
+`omusgor1_7` decimal(3,1),
+`omusgor1_8` decimal(3,1),
+`omusgor2_1` decimal(3,1),
+`omusgor2_2` decimal(3,1),
+`omusgor2_3` decimal(3,1),
+`omusgor2_4` decimal(3,1),
+`omusgor2_5` decimal(3,1),
+`omusgor2_6` decimal(3,1),
+`omusgor3_1` decimal(3,1),
+`omusgor3_2` decimal(3,1),
+`omusgor3_3` decimal(3,1),
+`omusgor3_4` decimal(3,1),
+`omusgor3_5` decimal(3,1),
+`omusgor3_6` decimal(3,1),
+`omusgor3_7` decimal(3,1),
+`omusgor3_8` decimal(3,1),
+`omusgor3_9` decimal(3,1),
+`omusgor3_10` decimal(3,1),
+`omusgor3_11` decimal(3,1),
+`omusgor4_1` decimal(3,1),
+`omusgor4_2` decimal(3,1),
+`omusgor4_3` decimal(3,1),
+`omusgor4_4` decimal(3,1),
+`omusgor4_5` decimal(3,1),
+`omusgor4_6` decimal(3,1),
+`omusgor4_7` decimal(3,1),
+`omusgor5_1` decimal(3,1),
+`omusgor5_2` decimal(3,1),
+`omusgor5_3` decimal(3,1),
+`omusgor5_4` decimal(3,1),
+`omusgor5_5` decimal(3,1),
+`omusgor5_6` decimal(3,1),
+`omusgor5_7` decimal(3,1),
+`omusgor5_8` decimal(3,1),
+`omusgor5_9` decimal(3,1),
+`omusgor5_10` decimal(3,1),
+`omusgor5_11` decimal(3,1),
+
   PRIMARY KEY (`rating_Id`),
   KEY `Employee_Id` (`Employee_Id`),
-  KEY `emp_rat_id` (`emp_rat_id`),
-  CONSTRAINT `emp_rating_vazorat_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
-  CONSTRAINT `emp_rating_vazorat_ibfk_2` FOREIGN KEY (`emp_rat_id`) REFERENCES `emp_rating` (`emp_rat_id`)
+  CONSTRAINT `emp_rating_vazorat_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
+  -- `emp_rat_id` int NOT NULL,
+-- KEY `emp_rat_id` (`emp_rat_id`),
+  -- CONSTRAINT `emp_rating_vazorat_ibfk_2` FOREIGN KEY (`emp_rat_id`) REFERENCES `emp_rating` (`emp_rat_id`)
 
 DROP TABLE IF EXISTS `training`;
 
