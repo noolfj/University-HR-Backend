@@ -1,9 +1,5 @@
-
 <?php 
 require_once "header.php";
-?>
-
-<?php
 session_start();
 
 if (empty($_SESSION["Username"])) {
@@ -11,47 +7,31 @@ if (empty($_SESSION["Username"])) {
     exit();
 }
 
-
 $Username = $_SESSION["Username"];
-//  database connection
 require_once "../conn.php";
 
-// $sql = "SELECT leave_id, full_name, reason, start_date, end_date, comments, status  FROM employee_leave";
-
 $sql = "SELECT * FROM employee_leave";
-
-
 $result = mysqli_query($conn , $sql);
-
 $i = 1;
-
-
 ?>
 
 <style>
     #commentText {
-        word-wrap: break-word; /* Для поддержки переноса слов */
-        overflow-wrap: break-word; /* Альтернативное свойство для поддержки переноса слов */
-        overflow-y: auto; /* Если текст слишком большой, добавляется вертикальный скролл */
-        max-height: 300px; /* Опционально: ограничиваем высоту блока, чтобы избежать слишком больших модальных окон */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        overflow-y: auto;
+        max-height: 300px;
     }
     .status-accepted {
-    color: green; /* Цвет текста для принятой заявки */
-}
-
-.status-rejected {
-    color: red; /* Цвет текста для отклоненной заявки */
-}
-
-
+        color: green;
+    }
+    .status-rejected {
+        color: red;
+    }
 </style>
 
-
 <div class="main-content">
-
     <div class="page-content">
-
-        <!-- start page title -->
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-flex align-items-center justify-content-between">
@@ -59,8 +39,6 @@ $i = 1;
                 </div>
             </div>
         </div>
-        <!-- end page title -->
-        <!-- Подключение стилей DataTables -->
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css">
 
         <div class="row">
@@ -69,10 +47,9 @@ $i = 1;
                     <div class="card-body">
                         <h3>Список заявок</h3>
                         <div class="table-responsive">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap"
-                                style="width: 100%;">
+                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="width: 100%;">
                                 <thead>
-                                <tr>
+                                    <tr>
                                         <th>№</th>
                                         <th class="text-center">ФИО</th>
                                         <th>Причина</th>
@@ -92,10 +69,10 @@ $i = 1;
                                             $fullname = $rows["full_name"];
                                             $reason = $rows["reason"];
                                             $comments = $rows["comments"];
-                                            $status = ($rows["status"] == "В ожидании") ? "В ожидании" : $rows["status"];
+                                            $status = $rows["status"];
                                             $leave_id = $rows["leave_id"];    
                                             $pdf_file = $rows["pdf_file"];  
-                                            ?>
+                                    ?>
                                     <tr>
                                         <th scope="row"><?php echo "$i."; ?></th>
                                         <td><?php echo $fullname; ?></td>
@@ -103,50 +80,36 @@ $i = 1;
                                         <td><?php echo $start_date; ?></td>
                                         <td><?php echo $end_date; ?></td>
                                         <td>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Действия">
-                                        <button type="button" class="btn btn-primary view-comments"
-    data-bs-toggle="modal" data-bs-target="#commentModal"
-    data-comment="<?php echo htmlspecialchars($comments); ?>">
-    Посмотреть
-</button>
-
-                                        </div>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Действия">
+                                                <button type="button" class="btn btn-primary view-comments" data-bs-toggle="modal" data-bs-target="#commentModal" data-comment="<?php echo htmlspecialchars($comments); ?>">
+                                                    Посмотреть
+                                                </button>
+                                            </div>
                                         </td>
                                         <td>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Действия">
-                                            <a href="../Personal/uploads/<?php echo $pdf_file; ?>" target="_blank"
-                                                class="btn btn-primary">Посмотреть</a>
-                                        </div>
+                                            <div class="btn-group btn-group-sm" role="group" aria-label="Действия">
+                                                <a href="../Personal/uploads/<?php echo $pdf_file; ?>" target="_blank" class="btn btn-primary">Посмотреть</a>
+                                            </div>
                                         </td>
-                                        <td>
-                                        <?php  
-if ($status == 'В ожидании') {
-    echo "<span class='status'>В ожидании</span>";
-
-} 
- else {
-    if ($status == 'Принято') {
-        echo "<span class='status-accepted'>Принять</span>";
-    } 
-    // Если заявка отклонена
-    else if ($status == 'Отклонено') {
-        echo "<span class='status-rejected'>Отклонено</span>";
-    }
-    // Если заявка на рассмотрении директора
-    
-    // Показать статус, если он не "ожидает"
-}
-?>
-</td>
-
+                                        <td class="text-center">
+                                            <?php 
+                                            if ($status == 'В ожидании') {
+                                                echo "<span class='status'>В ожидании</span>";
+                                            } elseif ($status == 'Принято') {
+                                                echo "<span class='status-accepted'>Принято</span>";
+                                            } elseif ($status == 'Отклонено') {
+                                                echo "<span class='status-rejected'>Отклонено</span>";
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
                                     <?php 
-                    $i++;
-                }
-            } else {
-                echo "<tr><td colspan='7' class='text-center'>Заявление не найдены</td></tr>";
-            }
-            ?>
+                                            $i++;
+                                        }
+                                    } else {
+                                        echo "<tr><td colspan='8' class='text-center'>Заявления не найдены</td></tr>";
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
                         </div>
@@ -180,44 +143,39 @@ if ($status == 'В ожидании') {
             });
         });
         </script>
-  <!-- Модальное окно для комментариев -->
-  <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel1">Комментария</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="commentText">
-           
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-primary waves-effect waves-light"
-                        data-bs-dismiss="modal">Закрыть</button>
+
+        <!-- Модальное окно для комментариев -->
+        <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel1">Комментарий</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="commentText">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary waves-effect waves-light" data-bs-dismiss="modal">Закрыть</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var viewButtons = document.querySelectorAll('.view-comments');
-        var modalCommentText = document.getElementById('commentText');
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var viewButtons = document.querySelectorAll('.view-comments');
+            var modalCommentText = document.getElementById('commentText');
 
-        viewButtons.forEach(function(button) {
-            button.addEventListener('click', function() {
-                var commentText = this.getAttribute('data-comment');
-                modalCommentText.innerHTML = commentText;
-                $('#commentModal').modal('show');
+            viewButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var commentText = this.getAttribute('data-comment');
+                    modalCommentText.innerHTML = commentText;
+                    $('#commentModal').modal('show');
+                });
             });
         });
-    });
-    </script>
+        </script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
-        <?php 
+<?php 
 require_once "footer.php";
 ?>
