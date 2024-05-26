@@ -30,7 +30,7 @@ $Path_Photo = $rows["Path_Photo"];
 
 <head>
 
-    <meta charset="utf-8" />
+<meta charset="UTF-8">
     <title>Главная страница</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
@@ -243,6 +243,13 @@ $Path_Photo = $rows["Path_Photo"];
                                 <a href="departament.php" class="waves-effect">
                                     <i class="bx bx-buildings"></i>
                                     <span>Департамент</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="cv.php" class="waves-effect">
+                                    <i class="bx bx bx-receipt"></i>
+                                    <span>CV</span>
                                 </a>
                             </li>
 

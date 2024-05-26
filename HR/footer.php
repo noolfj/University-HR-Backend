@@ -24,6 +24,9 @@
 <div class="rightbar-overlay"></div>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+
 <!-- JAVASCRIPT -->
 <script src="/assets/libs/jquery/jquery.min.js"></script>
 <script src="/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>

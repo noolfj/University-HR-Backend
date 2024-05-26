@@ -30,12 +30,13 @@ require_once "header.php";
                                     data-filter="Инженерная экономика и менеджмент">Инженерная экономика и менеджмент</button>
                                 <button type="button" class="btn btn-primary filterBtn"
                                     data-filter=" Физики и химии"> Физики и химии</button>
-                                <button type="button" class="btn btn-primary filterBtn"
-                                    data-filter="Автомобили и управление на транспорте">Автомобили и управление на транспорте</button>
+                                <!-- <button type="button" class="btn btn-primary filterBtn"
+                                    data-filter="Автомобили и управление на транспорте">Автомобили и управление на транспорте</button> -->
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="departmentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     Другие
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="departmentDropdown">
+                                <li><button class="dropdown-item filterBtn" type="button" data-filter="Автомобили и управление на транспорте">Автомобили и управление на транспорте</button></li>
                                     <li><button class="dropdown-item filterBtn" type="button" data-filter="Строительства">Строительства</button></li>
                                     <li><button class="dropdown-item filterBtn" type="button" data-filter="Государственный язык и обществоведение">Государственный язык и обществоведение</button></li>
                                     <li><button class="dropdown-item filterBtn" type="button" data-filter="Финансы и кредит">Финансы и кредит</button></li>
@@ -44,6 +45,8 @@ require_once "header.php";
                                     <li><button class="dropdown-item filterBtn" type="button" data-filter="Пищевая продукция и агротехнология">Пищевая продукция и агротехнология</button></li>
                                     <li><button class="dropdown-item filterBtn" type="button" data-filter="Кафедры Языков">Кафедры Языков</button></li>
                                 </ul>
+
+                                <button id="reportBtn" type="button" class="btn btn-success">Экспорт excel</button> 
                             </div>
 
                             <div class="table-responsive">
@@ -143,6 +146,8 @@ require_once "header.php";
 <!-- Подключение библиотеки DataTables -->
 <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
 <script>
 $(document).ready(function() {
     var table = $('#datatable').DataTable({
@@ -175,7 +180,25 @@ $(document).ready(function() {
 
     // Сортировка таблицы по баллам после загрузки данных
     table.order([4, 'desc']).draw();
+
+    // Обработчик нажатия кнопки Отчет
+    $('#reportBtn').on('click', function() {
+        var tableData = table.rows({ search: 'applied' }).data().toArray();
+        var ws_data = [['№', 'ФИО', 'Кафедра', 'Кредит', 'Баллы', 'Рейтинг']]; // Заголовки колонок
+
+        tableData.forEach(function(row, index) {
+            var fullName = $(row[1]).find('a').text().trim();
+            ws_data.push([index + 1, fullName, row[2], row[3], row[4], row[5]]);
+        });
+
+        var wb = XLSX.utils.book_new();
+        var ws = XLSX.utils.aoa_to_sheet(ws_data);
+        XLSX.utils.book_append_sheet(wb, ws, 'Статистика');
+        XLSX.writeFile(wb, 'report.xlsx');
+    });
 });
+</script>
+
 </script>
 
 <?php
