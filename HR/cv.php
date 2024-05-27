@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // SQL запрос для извлечения данных из таблицы employees
-$sql = "SELECT e.Employee_Id, e.Full_Name AS FullName, 
+$sql = "SELECT e.Employee_Id, e.Full_Name, 
                IFNULL(dep.Department_Name, 'Не указан') AS Department
         FROM employees e
         LEFT JOIN departments dep ON e.Department_Id = dep.Department_Id
@@ -24,7 +24,6 @@ $result = $conn->query($sql);
 if (!$result) {
     die("Query failed: " . $conn->error);
 }
-
 ?>
 
 <div class="main-content">
@@ -62,8 +61,8 @@ if (!$result) {
                                     if ($result->num_rows > 0) {
                                         while ($row = $result->fetch_assoc()) {
                                             echo '<tr>
-                                                    <td><a href="edit_cv.php?id='.$row["Employee_Id"].'">'.$row["FullName"].'</a></td>
-                                                    <td>'.$row["Department"].'</td>
+                                                    <td>'.htmlspecialchars($row["Full_Name"]).'</td>
+                                                    <td>'.htmlspecialchars($row["Department"]).'</td>
                                                     <td><a href="download_cv.php?id='.$row["Employee_Id"].'" target="_blank">Скачать CV</a></td>
                                                   </tr>';
                                         }
@@ -78,11 +77,10 @@ if (!$result) {
                 </div>
             </div>
         </div>
-    </div>
+    <!-- <td><a href="edit_cv.php?id='.$row["Employee_Id"].'">'.$row["Full_Name"].'</a></td> -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
-
     <script>
     $(document).ready(function() {
         $('#datatable').DataTable({
@@ -103,7 +101,8 @@ if (!$result) {
         });
     });
     </script>
+</div>
 
-    <?php 
+<?php 
 require_once "footer.php";
 ?>
