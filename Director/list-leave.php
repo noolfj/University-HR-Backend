@@ -41,15 +41,17 @@ $i = 1;
         </div>
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.6/css/jquery.dataTables.css">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h3>Список заявок</h3>
-                        <div class="table-responsive">
-                            <table id="datatable" class="table table-bordered dt-responsive nowrap" style="width: 100%;">
-                                <thead>
-                                    <tr>
+      
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Список заявок</h3>
+                <div >
+                <table id="datatable" class="table table-bordered " style="width: 100%;">
+                        <thead>
+                        <tr>
                                         <th>№</th>
                                         <th class="text-center">ФИО</th>
                                         <th>Причина</th>

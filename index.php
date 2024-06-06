@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 session_start();
                 session_unset();
                 $_SESSION["Username"] = $rows["Username"];
-                $_SESSION["Employee_Id"] = $rows["Employee_Id"]; // Save Employee_Id to session
+                $_SESSION["Employee_Id"] = $rows["Employee_Id"]; 
                 
                 // Проверка роли пользователя
                 if ($rows["User_Role_Id"] === "1") {
@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="../assets/css/icons.min.css" rel="stylesheet" type="text/css" />
     <style>
         h2 {
-            font-family: times, sans-serif; /* Замените Arial на нужный вам шрифт */
+            font-family: times, sans-serif; 
         }
     </style>
     <h2 class="text-center text-black">Система управление персоналом в учебном заведении</h2>

@@ -1,6 +1,6 @@
 /*
-SQLyog Ultimate v13.1.1 (64 bit)
-MySQL - 8.0.30 : Database - university_hr
+SQLyog Professional v13.1.1 (64 bit)
+MySQL - 8.0.24 : Database - university_hr
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 8.0.30 : Database - university_hr
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`university_hr` /*!40100 DEFAULT CHARACTER SET utf8mb3 */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`university_hr` /*!40100 DEFAULT CHARACTER SET utf8 */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 USE `university_hr`;
 
@@ -148,7 +148,7 @@ CREATE TABLE `employee_leave` (
   `end_date` date DEFAULT NULL,
   `comments` varchar(1000) DEFAULT NULL,
   `Username` varchar(30) DEFAULT NULL,
-  `status` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `status` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `pdf_file` blob,
   PRIMARY KEY (`leave_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
@@ -203,9 +203,9 @@ CREATE TABLE `employees` (
 insert  into `employees`(`Employee_Id`,`Full_Name`,`Date_of_Birth`,`Place_of_Birth`,`Position_Id`,`Degree_Id`,`Faculty_Id`,`Department_Id`,`User_Role_Id`,`Email`,`Phone_Number`,`Employee_Number`,`Date_Added`,`Path_Photo`,`Username`,`Password`) values 
 (1,'Максудов Хуршед Темурович','1958-09-20','Исфара',1,5,1,2,2,'jane.smith@example.com','987-654-3210','EMP002','2023-01-02','663cd88bf02598.65872519.png','Maksudov','Maksudov'),
 (2,'Худойбердиев Хуршед Атохонович','1980-04-10','Исфара',2,5,1,2,2,'khudoyberdiev@gmail.com','111-222-3333','EMP003','2023-01-03','663c7fba8b7588.46532569.png','Khudoyberdiev','Khudoyberdiev'),
-(3,'Ашурова Шабнам Нуруллоевна','2024-04-26','asda',4,15,1,2,2,'sdasd@gasd.com','12312','1231','2024-04-26','663c803e9e5b85.90505652.png','Ashurova','Ashurova'),
-(4,'Назаров Абдусамад Абдурахмонович','2024-04-26','12312',4,15,1,2,2,'21eqwew@sdas.fdg','12312','12312','2024-04-26','663c80530c1ff6.67552740.png','Nazarov','Nazarov'),
-(5,'Левандовский Богдан Игоревич ','2024-04-26','sda',1,2,1,2,2,'asdas@sda.com','12312','12312','2024-04-26',NULL,'Levandovski','Levandovski'),
+(3,'Ашурова Шабнам Нуруллоевна','1990-04-26','asda',4,15,1,2,2,'sdasd@gasd.com','12312','1231','2024-04-26','663c803e9e5b85.90505652.png','Ashurova','Ashurova'),
+(4,'Назаров Абдусамад Абдурахмонович','1985-04-26','12312',4,15,1,2,2,'21eqwew@sdas.fdg','12312','12312','2024-04-26','663c80530c1ff6.67552740.png','Nazarov','Nazarov'),
+(5,'Левандовский Богдан Игоревич ','1993-04-26','sda',1,2,1,2,2,'asdas@sda.com','12312','12312','2024-04-26',NULL,'Levandovski','Levandovski'),
 (6,'Солиев Одилходжа Махмудходжаевич','1977-04-01','Исфара',4,6,4,2,2,' osoliev@gmail.com','+992928373035','EMP004','2023-01-04','663c8154d97381.33705858.jpg','Soliev','Soliev'),
 (7,'Довудов Гулшан Мирбахоевич','1981-12-27','Исфара',2,1,1,2,2,'sada@gasd.csa','23123','12312','2024-04-26','663ca2541175f2.53483956.png','Dovudov','Dovudov'),
 (8,'Усмонова Мохина Рустамовна','1981-08-24','Хучанд',6,1,1,1,4,'sada@gasd.csa','23123','12312','2024-04-26',NULL,'Usmonova','Usmonova'),
@@ -276,7 +276,7 @@ CREATE TABLE `employees_plans` (
   KEY `Plan_Id` (`Plan_Id`),
   CONSTRAINT `employees_plans_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
   CONSTRAINT `employees_plans_ibfk_2` FOREIGN KEY (`Plan_Id`) REFERENCES `plans` (`Plan_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `employees_plans` */
 
@@ -315,7 +315,7 @@ DROP TABLE IF EXISTS `plans`;
 CREATE TABLE `plans` (
   `Plan_Id` int NOT NULL AUTO_INCREMENT,
   `Plan_Name` varchar(255) DEFAULT NULL,
-  `Comment` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `Comment` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `Plan_Credit` double DEFAULT NULL,
   PRIMARY KEY (`Plan_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
@@ -402,7 +402,7 @@ CREATE TABLE `tasks_completed` (
   KEY `Plan_Id` (`Plan_Id`),
   CONSTRAINT `tasks_completed_ibfk_1` FOREIGN KEY (`Employee_Id`) REFERENCES `employees` (`Employee_Id`),
   CONSTRAINT `tasks_completed_ibfk_2` FOREIGN KEY (`Plan_Id`) REFERENCES `plans` (`Plan_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb3;
 
 /*Data for the table `tasks_completed` */
 
@@ -442,7 +442,8 @@ insert  into `tasks_completed`(`Task_Id`,`Employee_Id`,`Plan_Id`,`File_Path`,`CO
 (33,5,4,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:58:38'),
 (34,6,1,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:20'),
 (35,6,6,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:25'),
-(36,6,3,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:31');
+(36,6,3,'../Personal/documents/gromov-t.pdf','','2024-05-23 20:59:31'),
+(37,2,2,'../Personal/documents/gromov-t.pdf','','2024-06-06 08:55:25');
 
 /*Table structure for table `training` */
 

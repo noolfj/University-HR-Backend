@@ -24,15 +24,8 @@
         <link href="../styles/css/owl.theme.default.min.css" rel="stylesheet">
         <link href="../styles/css/tooplate-gotto-job.css" rel="stylesheet">
 
-    <!--
 
-Tooplate 2134 Gotto Job
 
-https://www.tooplate.com/view/2134-gotto-job
-
-Bootstrap 5 HTML CSS Template
-
--->
 </head>
 
 <body id="top">

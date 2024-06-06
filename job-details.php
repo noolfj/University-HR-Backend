@@ -25,15 +25,7 @@
     <link href="../styles/css/owl.theme.default.min.css" rel="stylesheet">
     <link href="../styles/css/tooplate-gotto-job.css" rel="stylesheet">
 
-    <!--
 
-Tooplate 2134 Gotto Job
-
-https://www.tooplate.com/view/2134-gotto-job
-
-Bootstrap 5 HTML CSS Template
-
--->
 </head>
 
 <body id="top">
@@ -96,10 +88,8 @@ Bootstrap 5 HTML CSS Template
 
 
         <?php
-// Подключение к базе данных
 require_once "conn.php";
 
-// Получение ID вакансии из URL
 if (isset($_GET['vacancy_id'])) {
     $vacancy_id = $_GET['vacancy_id'];
 
@@ -142,10 +132,8 @@ if (isset($_GET['vacancy_id'])) {
                             </h5>
                             <ul>
                                 <?php 
-    // Разбиваем строку требований на массив по символу перевода строки
     $requirements_list = explode("\n", $row['Requirements']);
     
-    // Выводим каждый элемент массива как отдельный пункт списка
     foreach ($requirements_list as $requirement) {
         echo "<li>$requirement</li>";
     }
@@ -161,7 +149,6 @@ if (isset($_GET['vacancy_id'])) {
             </div>
         </section>
 
-        <!-- Конец HTML разметки -->
 
         <?php
     } else {

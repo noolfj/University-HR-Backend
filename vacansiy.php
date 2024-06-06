@@ -23,15 +23,7 @@
         <link href="../styles/css/owl.theme.default.min.css" rel="stylesheet">
         <link href="../styles/css/tooplate-gotto-job.css" rel="stylesheet">
         
-<!--
 
-Tooplate 2134 Gotto Job
-
-https://www.tooplate.com/view/2134-gotto-job
-
-Bootstrap 5 HTML CSS Template
-
--->
     </head>
     
     <body id="top">
@@ -155,7 +147,7 @@ if (mysqli_num_rows($result) > 0) {
         echo '</div>';
         echo '</div>';
         echo '<div class="job-section-btn-wrap">';
-        echo '<button id="applicationButton" class="btn btn-primary">Подать заявку</button>';
+        echo '<button id="applicationButton1" class="btn btn-primary">Подать заявку</button>';
         echo '</div>';
         echo '</div>';
         echo '</div>';
@@ -196,9 +188,7 @@ document.getElementById("applicationButton1").addEventListener("click", function
     window.open("https://docs.google.com/forms/d/e/1FAIpQLSdLiomYy5fefJzV0OykrYPcDfgptvgkoplGoo2M3MoBLMrLbA/viewform?usp=sf_link", "_blank");
 });
 
-document.getElementById("applicationButton2").addEventListener("click", function() {
-    window.open("https://docs.google.com/forms/d/e/1FAIpQLSdLiomYy5fefJzV0OykrYPcDfgptvgkoplGoo2M3MoBLMrLbA/viewform?usp=sf_link", "_blank");
-});
+
 
 </script>
 
@@ -214,38 +204,4 @@ document.getElementById("applicationButton2").addEventListener("click", function
 </html>
 
 
-                            <!-- <nav aria-label="Page navigation example">
-                                <ul class="pagination justify-content-center mt-5">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">Наз</span>
-                                        </a>
-                                    </li>
-
-                                    <li class="page-item active" aria-current="page">
-                                        <a class="page-link" href="#">1</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">2</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">3</a>
-                                    </li>
-
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">4</a>
-                                    </li>
-
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">5</a>
-                                    </li>
-                                    
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">Дальше</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav> -->
+       
